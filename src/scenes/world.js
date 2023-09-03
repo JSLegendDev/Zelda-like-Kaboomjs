@@ -47,16 +47,42 @@ export default async function world(k) {
   }
 
   const player = k.add([
-    k.rect(16, 16),
+    k.sprite("assets", { anim: "player-side" /* anim: "player-idle" */ }),
     k.scale(4),
     k.area(),
     k.body(),
     k.pos(1000, 500),
     { speed: 500 },
   ]);
-  player.onUpdate(() => k.camPos(player.pos));
-  k.onKeyDown("left", () => player.move(-player.speed, 0));
-  k.onKeyDown("right", () => player.move(player.speed, 0));
-  k.onKeyDown("up", () => player.move(0, -player.speed));
-  k.onKeyDown("down", () => player.move(0, player.speed));
+  //player.onUpdate(() => k.camPos(player.pos));
+  k.onKeyDown("left", () => {
+    player.flipX = true;
+    if (player.curAnim() !== "player-side") {
+      player.play("player-side");
+    }
+    player.move(-player.speed, 0);
+    k.camPos(player.pos);
+  });
+  k.onKeyDown("right", () => {
+    player.flipX = false;
+    if (player.curAnim() !== "player-side") {
+      player.play("player-side");
+    }
+    player.move(player.speed, 0);
+    k.camPos(player.pos);
+  });
+  k.onKeyDown("up", () => {
+    player.move(0, -player.speed);
+    k.camPos(player.pos);
+  });
+  k.onKeyDown("down", () => {
+    if (player.curAnim() !== "player-down") {
+      player.play("player-down");
+    }
+    player.move(0, player.speed);
+    k.camPos(player.pos);
+  });
+  k.onKeyRelease(() => {
+    player.stop();
+  });
 }

@@ -7,6 +7,19 @@ import world from "./scenes/world.js";
 k.loadSprite("assets", "./assets/topdownasset.png", {
   sliceX: 39,
   sliceY: 31,
+  anims: {
+    //"player-idle": 936,
+    "player-down": {
+      from: 936,
+      to: 939,
+      loop: true,
+    },
+    "player-side": {
+      from: 976,
+      to: 978,
+      loop: true,
+    },
+  },
 });
 
 const scenes = [menu, world, gameOver, endGame];
