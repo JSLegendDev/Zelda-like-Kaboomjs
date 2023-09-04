@@ -581,14 +581,14 @@
                 }, 
                 {
                  "class":"",
-                 "height":64,
+                 "height":80,
                  "id":38,
                  "name":"",
                  "rotation":0,
                  "visible":true,
                  "width":16,
                  "x":288,
-                 "y":128
+                 "y":112
                 }, 
                 {
                  "class":"",
@@ -1103,9 +1103,20 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":13,
+         "name":"CameraPositions",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":13,
- "nextobjectid":93,
+ "nextlayerid":14,
+ "nextobjectid":117,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
