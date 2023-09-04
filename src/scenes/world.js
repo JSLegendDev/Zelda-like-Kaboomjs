@@ -85,24 +85,18 @@ export default async function world(k) {
 
   player.onCollide("door-entrance", () => k.go(2));
   player.onBeforePhysicsResolve((collision) => {
-    //collision.preventResolution();
+    collision.preventResolution();
 
     player.pos = player.prevPos;
   });
 
   k.camPos(player.worldPos());
   k.onUpdate(() => {
-    player.prevPos = player.pos;
-    const playerCollisions = player.getCollisions();
-
-    for (const collision of playerCollisions) {
-      if (Math.abs(collision.source.pos.x - collision.target.pos.x) > 20) {
-        k.camPos(player.worldPos());
-      }
-    }
+    k.camPos(player.worldPos());
   });
 
   k.onKeyDown("left", () => {
+    player.prevPos = player.pos;
     const playerCollisions = player.getCollisions();
     if (playerCollisions.length > 0) {
       const collision = playerCollisions[0];
@@ -116,6 +110,7 @@ export default async function world(k) {
     player.move(-player.speed, 0);
   });
   k.onKeyDown("right", () => {
+    player.prevPos = player.pos;
     player.flipX = false;
     if (player.curAnim() !== "player-side") {
       player.play("player-side");
@@ -123,12 +118,14 @@ export default async function world(k) {
     player.move(player.speed, 0);
   });
   k.onKeyDown("up", () => {
+    player.prevPos = player.pos;
     if (player.curAnim() !== "player-up") {
       player.play("player-up");
     }
     player.move(0, -player.speed);
   });
   k.onKeyDown("down", () => {
+    player.prevPos = player.pos;
     if (player.curAnim() !== "player-down") {
       player.play("player-down");
     }
