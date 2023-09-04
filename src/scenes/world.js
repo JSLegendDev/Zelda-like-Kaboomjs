@@ -1,5 +1,4 @@
 export default async function world(k) {
-  let playerPos;
   k.add([
     k.rect(k.canvas.width, k.canvas.height),
     k.color(76, 170, 255),
@@ -7,6 +6,10 @@ export default async function world(k) {
   ]);
   const mapData = await (await fetch("./assets/maps/world.json")).json();
   const map = k.add([k.pos(0, 0), k.scale(4)]);
+
+  const entities = {
+    player: null,
+  };
 
   const layers = mapData.layers;
   for (const layer of layers) {
@@ -16,8 +19,8 @@ export default async function world(k) {
           k.rect(object.width, object.height),
           k.pos(object.x, object.y + 16),
           k.area(),
-          k.opacity(0),
           k.body({ isStatic: true }),
+          k.opacity(0),
           k.offscreen(),
           object.name,
         ]);
@@ -28,7 +31,18 @@ export default async function world(k) {
     if (layer.name === "SpawnPoints") {
       for (const object of layer.objects) {
         if (object.name === "player") {
-          playerPos = k.vec2(object.x, object.y);
+          entities.player = map.add([
+            k.sprite("assets", {
+              anim: "player-side" /* anim: "player-idle" */,
+            }),
+            k.area({ shape: new k.Rect(k.vec2(5, 0), 12, 12) }),
+            k.body(),
+            k.pos(object.x, object.y),
+            {
+              speed: 80,
+              prevPos: null,
+            },
+          ]);
         }
       }
       continue;
@@ -56,28 +70,50 @@ export default async function world(k) {
     }
   }
 
-  const player = k.add([
-    k.sprite("assets", { anim: "player-side" /* anim: "player-idle" */ }),
-    k.scale(4),
-    k.area(),
-    k.body(),
-    k.pos(map.pos.x + playerPos.x, map.pos.y + playerPos.y),
-    {
-      speed: 500,
-    },
-  ]);
+  // const player = k.add([
+  //   k.sprite("assets", { anim: "player-side" /* anim: "player-idle" */ }),
+  //   k.scale(4),
+  //   k.area(),
+  //   k.body(),
+  //   k.pos(500, 500),
+  //   {
+  //     speed: 500,
+  //   },
+  // ]);
+
+  const player = entities.player;
 
   player.onCollide("door-entrance", () => k.go(2));
+  player.onBeforePhysicsResolve((collision) => {
+    //collision.preventResolution();
 
-  k.camPos(player.pos);
+    player.pos = player.prevPos;
+  });
+
+  k.camPos(player.worldPos());
+  k.onUpdate(() => {
+    player.prevPos = player.pos;
+    const playerCollisions = player.getCollisions();
+
+    for (const collision of playerCollisions) {
+      if (Math.abs(collision.source.pos.x - collision.target.pos.x) > 20) {
+        k.camPos(player.worldPos());
+      }
+    }
+  });
 
   k.onKeyDown("left", () => {
+    const playerCollisions = player.getCollisions();
+    if (playerCollisions.length > 0) {
+      const collision = playerCollisions[0];
+      console.log(Math.abs(collision.source.pos.x - collision.target.pos.x));
+    }
+
     player.flipX = true;
     if (player.curAnim() !== "player-side") {
       player.play("player-side");
     }
     player.move(-player.speed, 0);
-    k.camPos(player.pos);
   });
   k.onKeyDown("right", () => {
     player.flipX = false;
@@ -85,22 +121,20 @@ export default async function world(k) {
       player.play("player-side");
     }
     player.move(player.speed, 0);
-    k.camPos(player.pos);
   });
   k.onKeyDown("up", () => {
     if (player.curAnim() !== "player-up") {
       player.play("player-up");
     }
     player.move(0, -player.speed);
-    k.camPos(player.pos);
   });
   k.onKeyDown("down", () => {
     if (player.curAnim() !== "player-down") {
       player.play("player-down");
     }
     player.move(0, player.speed);
-    k.camPos(player.pos);
   });
+
   k.onKeyRelease(() => {
     player.stop();
   });
