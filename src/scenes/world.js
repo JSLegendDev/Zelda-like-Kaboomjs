@@ -1,5 +1,5 @@
 export default async function world(k) {
-  console.log(k);
+  let playerPos;
   k.add([
     k.rect(k.canvas.width, k.canvas.height),
     k.color(76, 170, 255),
@@ -19,7 +19,17 @@ export default async function world(k) {
           k.opacity(0),
           k.body({ isStatic: true }),
           k.offscreen(),
+          object.name,
         ]);
+      }
+      continue;
+    }
+
+    if (layer.name === "SpawnPoints") {
+      for (const object of layer.objects) {
+        if (object.name === "player") {
+          playerPos = k.vec2(object.x, object.y);
+        }
       }
       continue;
     }
@@ -51,10 +61,16 @@ export default async function world(k) {
     k.scale(4),
     k.area(),
     k.body(),
-    k.pos(1000, 500),
-    { speed: 500 },
+    k.pos(map.pos.x + playerPos.x, map.pos.y + playerPos.y),
+    {
+      speed: 500,
+    },
   ]);
-  //player.onUpdate(() => k.camPos(player.pos));
+
+  player.onCollide("door-entrance", () => k.go(2));
+
+  k.camPos(player.pos);
+
   k.onKeyDown("left", () => {
     player.flipX = true;
     if (player.curAnim() !== "player-side") {
@@ -72,6 +88,9 @@ export default async function world(k) {
     k.camPos(player.pos);
   });
   k.onKeyDown("up", () => {
+    if (player.curAnim() !== "player-up") {
+      player.play("player-up");
+    }
     player.move(0, -player.speed);
     k.camPos(player.pos);
   });

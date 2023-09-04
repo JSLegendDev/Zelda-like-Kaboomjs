@@ -19,6 +19,11 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
       to: 978,
       loop: true,
     },
+    "player-up": {
+      from: 1014,
+      to: 1017,
+      loop: true,
+    },
   },
 });
 
