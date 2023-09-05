@@ -1,4 +1,3 @@
-import k from "../kaboomContext.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
 export function generatePlayerComponents(k, pos) {
