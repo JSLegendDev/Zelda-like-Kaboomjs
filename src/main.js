@@ -9,7 +9,7 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
   sliceX: 39,
   sliceY: 31,
   anims: {
-    //"player-idle": 936,
+    "player-idle": 936,
     "player-down": {
       from: 936,
       to: 939,

@@ -1,3 +1,8 @@
+import {
+  generatePlayerComponents,
+  setPlayerControls,
+} from "../entities/player.js";
+
 export default async function world(k) {
   k.add([
     k.rect(k.canvas.width, k.canvas.height),
@@ -31,17 +36,9 @@ export default async function world(k) {
     if (layer.name === "SpawnPoints") {
       for (const object of layer.objects) {
         if (object.name === "player") {
-          entities.player = map.add([
-            k.sprite("assets", {
-              anim: "player-side" /* anim: "player-idle" */,
-            }),
-            k.area({ shape: new k.Rect(k.vec2(2, 4), 12, 12) }),
-            k.body(),
-            k.pos(object.x, object.y),
-            {
-              speed: 80,
-            },
-          ]);
+          entities.player = map.add(
+            generatePlayerComponents(k, k.vec2(object.x, object.y))
+          );
         }
       }
       continue;
@@ -70,43 +67,12 @@ export default async function world(k) {
   }
 
   const player = entities.player;
-
+  setPlayerControls(k, player);
   player.onCollide("door-entrance", () => k.go(2));
 
   k.camScale(4);
   k.camPos(player.worldPos());
   k.onUpdate(() => {
     k.camPos(player.worldPos());
-  });
-
-  k.onKeyDown("left", () => {
-    player.flipX = true;
-    if (player.curAnim() !== "player-side") {
-      player.play("player-side");
-    }
-    player.move(-player.speed, 0);
-  });
-  k.onKeyDown("right", () => {
-    player.flipX = false;
-    if (player.curAnim() !== "player-side") {
-      player.play("player-side");
-    }
-    player.move(player.speed, 0);
-  });
-  k.onKeyDown("up", () => {
-    if (player.curAnim() !== "player-up") {
-      player.play("player-up");
-    }
-    player.move(0, -player.speed);
-  });
-  k.onKeyDown("down", () => {
-    if (player.curAnim() !== "player-down") {
-      player.play("player-down");
-    }
-    player.move(0, player.speed);
-  });
-
-  k.onKeyRelease(() => {
-    player.stop();
   });
 }
