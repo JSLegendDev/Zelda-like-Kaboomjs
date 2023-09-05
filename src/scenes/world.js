@@ -28,20 +28,6 @@ export default async function world(k) {
       continue;
     }
 
-    if (layer.name === "CameraPositions") {
-      for (const object of layer.objects) {
-        map.add([
-          k.rect(object.width, object.height),
-          k.pos(object.x, object.y + 16),
-          k.area(),
-          k.opacity(0),
-          k.offscreen(),
-          "camPosition",
-        ]);
-      }
-      continue;
-    }
-
     if (layer.name === "SpawnPoints") {
       for (const object of layer.objects) {
         if (object.name === "player") {
