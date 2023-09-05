@@ -35,23 +35,13 @@ export default async function world(k) {
             k.sprite("assets", {
               anim: "player-side" /* anim: "player-idle" */,
             }),
-            k.area({ shape: new k.Rect(k.vec2(5, 0), 12, 12) }),
+            k.area({ shape: new k.Rect(k.vec2(2, 4), 12, 12) }),
             k.body(),
             k.pos(object.x, object.y),
             {
               speed: 80,
             },
           ]);
-
-          entities.player.onCollide("camPosition", async (camPosition) => {
-            await k.tween(
-              k.camPos(),
-              camPosition.worldPos(),
-              1,
-              (val) => k.camPos(val),
-              k.easings.easeInSine
-            );
-          });
         }
       }
       continue;
