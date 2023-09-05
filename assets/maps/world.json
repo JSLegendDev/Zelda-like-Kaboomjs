@@ -1130,6 +1130,30 @@
                  "width":0,
                  "x":512,
                  "y":96
+                }, 
+                {
+                 "height":0,
+                 "id":125,
+                 "name":"slime",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":384,
+                 "y":128
+                }, 
+                {
+                 "height":0,
+                 "id":126,
+                 "name":"slime",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":624,
+                 "y":224
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1182,7 +1206,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":125,
+ "nextobjectid":127,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
