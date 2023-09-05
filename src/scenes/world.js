@@ -66,13 +66,12 @@ export default async function world(k) {
     }
   }
 
-  const player = entities.player;
-  setPlayerControls(k, player);
-  player.onCollide("door-entrance", () => k.go(2));
+  setPlayerControls(k, entities.player);
+  entities.player.onCollide("door-entrance", () => k.go(2));
 
   k.camScale(4);
-  k.camPos(player.worldPos());
+  k.camPos(entities.player.worldPos());
   k.onUpdate(() => {
-    k.camPos(player.worldPos());
+    k.camPos(entities.player.worldPos());
   });
 }
