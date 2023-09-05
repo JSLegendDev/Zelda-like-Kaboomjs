@@ -53,7 +53,7 @@ export default async function world(k) {
             k.body(),
             k.pos(object.x, object.y),
             {
-              speed: 40,
+              speed: 80,
             },
           ]);
 
@@ -99,6 +99,9 @@ export default async function world(k) {
 
   k.camScale(4);
   k.camPos(player.worldPos());
+  k.onUpdate(() => {
+    k.camPos(player.worldPos());
+  });
 
   k.onKeyDown("left", () => {
     player.flipX = true;
