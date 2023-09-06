@@ -1,7 +1,6 @@
 import k from "./kaboomContext.js";
 import endGame from "./scenes/endGame.js";
 import gameOver from "./scenes/gameOver.js";
-import menu from "./scenes/menu.js";
 import world from "./scenes/world.js";
 import house from "./scenes/house.js";
 
@@ -27,11 +26,16 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
       to: 1017,
       loop: true,
     },
+    "slime-idle-down": 858,
+    "slime-down": { from: 858, to: 859, loop: true },
+    "slime-idle-side": 860,
+    "slime-side": { from: 860, to: 861, loop: true },
+    "slime-idle-up": 897,
+    "slime-up": { from: 897, to: 898, loop: true },
   },
 });
 
 const scenes = {
-  menu,
   world,
   house,
   gameOver,

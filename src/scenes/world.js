@@ -2,12 +2,12 @@ import {
   generatePlayerComponents,
   setPlayerControls,
 } from "../entities/player.js";
-import { generateSlimeComponents } from "../entities/slime.js";
+import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
 
 function drawSea(k) {
   k.add([
     k.rect(k.canvas.width, k.canvas.height),
-    k.color(76, 170, 255),
+    k.color(76, 170, 255), //k.color(111, 106, 191), // k.color(76, 170, 255),
     k.fixed(),
   ]);
 }
@@ -87,4 +87,8 @@ export default async function world(k) {
   k.onUpdate(() => {
     k.camPos(entities.player.worldPos());
   });
+
+  for (const slime of entities.slimes) {
+    setSlimeAI(k, slime);
+  }
 }
