@@ -4,6 +4,7 @@ export function generateSlimeComponents(k, pos) {
     k.area(),
     k.body(),
     k.pos(pos),
+    k.offscreen(),
     {},
   ];
 }

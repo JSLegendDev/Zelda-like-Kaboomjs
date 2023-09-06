@@ -80,7 +80,7 @@ export default async function world(k) {
   }
 
   setPlayerControls(k, entities.player);
-  entities.player.onCollide("door-entrance", () => k.go(2));
+  entities.player.onCollide("door-entrance", () => k.go("house"));
 
   k.camScale(4);
   k.camPos(entities.player.worldPos());

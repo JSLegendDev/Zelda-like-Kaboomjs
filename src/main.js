@@ -30,9 +30,15 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
   },
 });
 
-const scenes = [menu, world, house, gameOver, endGame];
-for (const [index, scene] of scenes.entries()) {
-  k.scene(index, () => scene(k));
+const scenes = {
+  menu,
+  world,
+  house,
+  gameOver,
+  endGame,
+};
+for (const sceneName in scenes) {
+  k.scene(sceneName, () => scenes[sceneName](k));
 }
 
-k.go(1);
+k.go("world");
