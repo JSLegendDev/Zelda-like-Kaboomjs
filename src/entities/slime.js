@@ -8,7 +8,7 @@ export function generateSlimeComponents(k, pos) {
     k.pos(pos),
     k.offscreen(),
     k.timer(),
-    k.state("idle", ["idle", "left", "right", "up", "down"]),
+    k.state("idle", ["idle", "left", "right", "up", "down", "follow"]),
     {
       speed: 50,
     },
