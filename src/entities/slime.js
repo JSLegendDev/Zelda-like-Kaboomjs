@@ -5,7 +5,7 @@ const slimeMovementStates = ["left", "right", "up", "down"];
 export function generateSlimeComponents(k, pos) {
   return [
     k.sprite("assets", { frame: 858 }),
-    k.area(),
+    k.area({ shape: new k.Rect(k.vec2(0, 4), 16, 10) }),
     k.body(),
     k.pos(pos),
     k.offscreen(),
@@ -19,7 +19,7 @@ export function generateSlimeComponents(k, pos) {
 }
 
 export function setSlimeAI(k, slime) {
-  slime.onStateEnter("idle", (previousState) => {
+  slime.onStateEnter("idle", () => {
     slime.stop();
     slime.wait(2, () => {
       slime.enterState(
