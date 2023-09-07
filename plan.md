@@ -1,0 +1,11 @@
+- [x] Overworld map
+- [x] Player movement + animations
+- [] Player sword attack and shield
+- [In Progress] Slime AI
+- [] UI that displays necessary info like health, items, etc...
+- [] Grass cutting with rupee drops occasionally
+- [] House where hero acquires sword from old man
+- [] First quest : Hero needs to acquire money to buy shield from old man
+- [] Dungeon with puzzles involving shield + sokoban pushing boxes around to acquire key
+- [] Frog enemy that spit pellets that can hurt the player if they don't deflect with their shield
+- [] Dungeon Boss
