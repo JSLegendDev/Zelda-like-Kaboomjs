@@ -12,6 +12,7 @@ export function generatePlayerComponents(k, pos) {
     {
       speed: 80,
     },
+    "player",
   ];
 }
 
