@@ -24,6 +24,16 @@ export function setSlimeAI(k, slime) {
         return;
       }
 
+      if (previousState === "up") {
+        slime.enterState("down");
+        return;
+      }
+
+      if (previousState === "right") {
+        slime.enterState("up");
+        return;
+      }
+
       slime.enterState("left");
     });
   });
@@ -65,6 +75,46 @@ export function setSlimeAI(k, slime) {
     slime.wait(3, () => {
       stop = true;
       slime.enterState("idle", "right");
+    });
+  });
+
+  slime.onStateEnter("up", async () => {
+    slime.flipX = false;
+    playAnimIfNotPlaying(slime, "slime-up");
+
+    let stop = false;
+    const movementUdate = k.onUpdate(() => {
+      if (stop) {
+        movementUdate.cancel();
+        return;
+      }
+
+      slime.move(0, -slime.speed);
+    });
+
+    slime.wait(3, () => {
+      stop = true;
+      slime.enterState("idle", "up");
+    });
+  });
+
+  slime.onStateEnter("down", async () => {
+    slime.flipX = false;
+    playAnimIfNotPlaying(slime, "slime-down");
+
+    let stop = false;
+    const movementUdate = k.onUpdate(() => {
+      if (stop) {
+        movementUdate.cancel();
+        return;
+      }
+
+      slime.move(0, slime.speed);
+    });
+
+    slime.wait(3, () => {
+      stop = true;
+      slime.enterState("idle", "down");
     });
   });
 }
