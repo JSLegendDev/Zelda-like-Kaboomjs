@@ -3,18 +3,19 @@ import {
   setPlayerControls,
 } from "../entities/player.js";
 import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
+import { drawTiles, fetchMapData } from "../utils.js";
 
 function drawSea(k) {
   k.add([
     k.rect(k.canvas.width, k.canvas.height),
-    k.color(76, 170, 255), //k.color(111, 106, 191), // k.color(76, 170, 255),
+    k.color(76, 170, 255),
     k.fixed(),
   ]);
 }
 
-export default async function world(k) {
+export default async function world(k, previousSceneData = null) {
   drawSea(k);
-  const mapData = await (await fetch("./assets/maps/world.json")).json();
+  const mapData = await fetchMapData("./assets/maps/world.json");
   const map = k.add([k.pos(0, 0)]);
 
   const entities = {
@@ -57,32 +58,13 @@ export default async function world(k) {
       continue;
     }
 
-    let nbOfDrawnTiles = 0;
-    const tilePos = k.vec2(0, 0);
-    for (const tile of layer.data) {
-      if (nbOfDrawnTiles % layer.width === 0) {
-        tilePos.x = 0;
-        tilePos.y += mapData.tileheight;
-      } else {
-        tilePos.x += mapData.tilewidth;
-      }
-
-      nbOfDrawnTiles++;
-
-      if (tile === 0) continue;
-
-      map.add([
-        k.sprite("assets", { frame: tile - 1 }),
-        k.pos(tilePos),
-        k.offscreen(),
-      ]);
-    }
+    drawTiles(k, map, layer, mapData.tileheight, mapData.tilewidth);
   }
 
   setPlayerControls(k, entities.player);
   entities.player.onCollide("door-entrance", () => k.go("house"));
 
-  k.camScale(4);
+  k.camScale(2.5);
   k.camPos(entities.player.worldPos());
   k.onUpdate(() => {
     k.camPos(entities.player.worldPos());
