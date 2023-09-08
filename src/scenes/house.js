@@ -22,6 +22,11 @@ export default async function house(k) {
       continue;
     }
 
+    if (layer.name === "SpawnPoints") {
+      //TODO
+      continue;
+    }
+
     drawTiles(k, map, layer, mapData.tileheight, mapData.tileheight);
   }
 
