@@ -12,6 +12,10 @@ export function isAnyOfTheseKeysDown(k, keys) {
   return false;
 }
 
+export function colorizeBackground(k, r, g, b) {
+  k.add([k.rect(k.canvas.width, k.canvas.height), k.color(r, g, b), k.fixed()]);
+}
+
 export function drawTiles(k, map, layer, tileheight, tilewidth) {
   let nbOfDrawnTiles = 0;
   const tilePos = k.vec2(0, 0);
@@ -35,6 +39,32 @@ export function drawTiles(k, map, layer, tileheight, tilewidth) {
   }
 }
 
+export function drawBoundaries(k, map, layer) {
+  for (const object of layer.objects) {
+    map.add(
+      generateColliderBoxComponents(
+        k,
+        object.width,
+        object.height,
+        k.vec2(object.x, object.y),
+        object.name
+      )
+    );
+  }
+}
+
 export async function fetchMapData(mapPath) {
   return await (await fetch(mapPath)).json();
+}
+
+export function generateColliderBoxComponents(k, width, height, pos, tag) {
+  return [
+    k.rect(width, height),
+    k.pos(pos.x, pos.y + 16),
+    k.area(),
+    k.body({ isStatic: true }),
+    k.opacity(0),
+    k.offscreen(),
+    tag,
+  ];
 }

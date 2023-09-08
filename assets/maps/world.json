@@ -366,23 +366,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":112,
+                 "width":128,
                  "x":544,
                  "y":304
                 }, 
                 {
-                 "height":16,
-                 "id":20,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":656,
-                 "y":288
-                }, 
-                {
-                 "height":64,
+                 "height":96,
                  "id":21,
                  "name":"",
                  "rotation":0,
@@ -798,8 +787,7 @@
                  "width":16,
                  "x":544,
                  "y":144
-                },
-            
+                }, 
                 {
                  "height":32,
                  "id":71,
@@ -810,7 +798,8 @@
                  "width":16,
                  "x":576,
                  "y":80
-                }, 
+                },
+            
                 {
                  "height":16,
                  "id":72,
@@ -1054,7 +1043,7 @@
                  "y":288
                 }, 
                 {
-                 "height":32,
+                 "height":16,
                  "id":124,
                  "name":"",
                  "rotation":0,
@@ -1063,6 +1052,39 @@
                  "width":48,
                  "x":160,
                  "y":32
+                }, 
+                {
+                 "height":16,
+                 "id":137,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":160,
+                 "y":48
+                }, 
+                {
+                 "height":16,
+                 "id":138,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":192,
+                 "y":48
+                }, 
+                {
+                 "height":16,
+                 "id":139,
+                 "name":"dungeon-door-entrance",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":176,
+                 "y":48
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1198,7 +1220,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":137,
+ "nextobjectid":140,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

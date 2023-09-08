@@ -3,6 +3,7 @@ import endGame from "./scenes/endGame.js";
 import gameOver from "./scenes/gameOver.js";
 import world from "./scenes/world.js";
 import house from "./scenes/house.js";
+import dungeon from "./scenes/dungeon.js";
 
 k.loadSprite("assets", "./assets/topdownasset.png", {
   sliceX: 39,
@@ -38,6 +39,7 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
 const scenes = {
   world,
   house,
+  dungeon,
   gameOver,
   endGame,
 };

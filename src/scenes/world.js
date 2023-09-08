@@ -3,18 +3,15 @@ import {
   setPlayerControls,
 } from "../entities/player.js";
 import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
-import { drawTiles, fetchMapData } from "../utils.js";
-
-function drawSea(k) {
-  k.add([
-    k.rect(k.canvas.width, k.canvas.height),
-    k.color(76, 170, 255),
-    k.fixed(),
-  ]);
-}
+import {
+  colorizeBackground,
+  drawTiles,
+  fetchMapData,
+  drawBoundaries,
+} from "../utils.js";
 
 export default async function world(k, previousSceneData = null) {
-  drawSea(k);
+  colorizeBackground(k, 76, 170, 255);
   const mapData = await fetchMapData("./assets/maps/world.json");
   const map = k.add([k.pos(0, 0)]);
 
@@ -26,17 +23,7 @@ export default async function world(k, previousSceneData = null) {
   const layers = mapData.layers;
   for (const layer of layers) {
     if (layer.name === "Boundaries") {
-      for (const object of layer.objects) {
-        map.add([
-          k.rect(object.width, object.height),
-          k.pos(object.x, object.y + 16),
-          k.area(),
-          k.body({ isStatic: true }),
-          k.opacity(0),
-          k.offscreen(),
-          object.name,
-        ]);
-      }
+      drawBoundaries(k, map, layer);
       continue;
     }
 
@@ -63,6 +50,7 @@ export default async function world(k, previousSceneData = null) {
 
   setPlayerControls(k, entities.player);
   entities.player.onCollide("door-entrance", () => k.go("house"));
+  entities.player.onCollide("dungeon-door-entrance", () => k.go("dungeon"));
 
   k.camScale(2.5);
   k.camPos(entities.player.worldPos());
