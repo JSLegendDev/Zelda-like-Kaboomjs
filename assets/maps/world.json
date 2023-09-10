@@ -1099,18 +1099,6 @@
          "objects":[
                 {
                  "height":0,
-                 "id":92,
-                 "name":"player",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":512,
-                 "y":96
-                }, 
-                {
-                 "height":0,
                  "id":125,
                  "name":"slime",
                  "point":true,
@@ -1168,7 +1156,21 @@
                  "width":0,
                  "x":592,
                  "y":64
+                }, 
+                {
+                 "height":0,
+                 "id":141,
+                 "name":"player",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":512,
+                 "y":80
                 }],
+         "offsetx":0,
+         "offsety":-16,
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -1220,7 +1222,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":140,
+ "nextobjectid":142,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

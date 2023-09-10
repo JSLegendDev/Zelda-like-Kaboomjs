@@ -52,7 +52,7 @@ export default async function world(k, previousSceneData = null) {
   entities.player.onCollide("door-entrance", () => k.go("house"));
   entities.player.onCollide("dungeon-door-entrance", () => k.go("dungeon"));
 
-  k.camScale(2.5);
+  k.camScale(4);
   k.camPos(entities.player.worldPos());
   k.onUpdate(() => {
     k.camPos(entities.player.worldPos());

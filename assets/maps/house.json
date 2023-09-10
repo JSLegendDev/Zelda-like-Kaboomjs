@@ -230,12 +230,12 @@
         }, 
         {
          "draworder":"topdown",
-         "id":5,
+         "id":6,
          "name":"SpawnPoints",
          "objects":[
                 {
                  "height":0,
-                 "id":15,
+                 "id":22,
                  "name":"player",
                  "point":true,
                  "rotation":0,
@@ -243,7 +243,7 @@
                  "visible":true,
                  "width":0,
                  "x":112,
-                 "y":160
+                 "y":176
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -251,8 +251,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":6,
- "nextobjectid":16,
+ "nextlayerid":7,
+ "nextobjectid":23,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

@@ -1,4 +1,8 @@
 import {
+  generatePlayerComponents,
+  setPlayerControls,
+} from "../entities/player.js";
+import {
   colorizeBackground,
   drawBoundaries,
   drawTiles,
@@ -23,12 +27,22 @@ export default async function house(k) {
     }
 
     if (layer.name === "SpawnPoints") {
-      //TODO
+      for (const object of layer.objects) {
+        if (object.name === "player") {
+          entities.player = map.add(
+            generatePlayerComponents(k, k.vec2(object.x, object.y))
+          );
+          continue;
+        }
+      }
+
       continue;
     }
 
     drawTiles(k, map, layer, mapData.tileheight, mapData.tileheight);
   }
 
-  k.camScale(2.5);
+  k.camScale(4);
+  setPlayerControls(k, entities.player);
+  entities.player.onCollide("door-exit", () => k.go("world"));
 }
