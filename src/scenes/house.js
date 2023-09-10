@@ -2,6 +2,7 @@ import {
   generatePlayerComponents,
   setPlayerControls,
 } from "../entities/player.js";
+import gameState from "../globalStateManager.js";
 import {
   colorizeBackground,
   drawBoundaries,
@@ -44,5 +45,8 @@ export default async function house(k) {
 
   k.camScale(4);
   setPlayerControls(k, entities.player);
-  entities.player.onCollide("door-exit", () => k.go("world"));
+  entities.player.onCollide("door-exit", () => {
+    gameState.setPreviousScene("house");
+    k.go("world");
+  });
 }

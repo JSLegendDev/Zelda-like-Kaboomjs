@@ -3,6 +3,7 @@ import {
   setPlayerControls,
 } from "../entities/player.js";
 import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
+import gameState from "../globalStateManager.js";
 import {
   colorizeBackground,
   drawTiles,
@@ -10,7 +11,8 @@ import {
   drawBoundaries,
 } from "../utils.js";
 
-export default async function world(k, previousSceneData = null) {
+export default async function world(k) {
+  const previousScene = gameState.getPreviousScene();
   colorizeBackground(k, 76, 170, 255);
   const mapData = await fetchMapData("./assets/maps/world.json");
   const map = k.add([k.pos(0, 0)]);
@@ -29,7 +31,17 @@ export default async function world(k, previousSceneData = null) {
 
     if (layer.name === "SpawnPoints") {
       for (const object of layer.objects) {
-        if (object.name === "player") {
+        if (object.name === "player-dungeon" && previousScene === "dungeon") {
+          entities.player = map.add(
+            generatePlayerComponents(k, k.vec2(object.x, object.y))
+          );
+          continue;
+        }
+
+        if (
+          object.name === "player" &&
+          (!previousScene || previousScene === "house")
+        ) {
           entities.player = map.add(
             generatePlayerComponents(k, k.vec2(object.x, object.y))
           );

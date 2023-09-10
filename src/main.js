@@ -47,4 +47,4 @@ for (const sceneName in scenes) {
   k.scene(sceneName, () => scenes[sceneName](k));
 }
 
-k.go("dungeon");
+k.go("world");

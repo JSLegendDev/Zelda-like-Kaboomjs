@@ -9,6 +9,7 @@ import {
   generatePlayerComponents,
   setPlayerControls,
 } from "../entities/player.js";
+import gameState from "../globalStateManager.js";
 
 export default async function dungeon(k) {
   colorizeBackground(k, 27, 29, 52);
@@ -42,7 +43,10 @@ export default async function dungeon(k) {
   }
 
   setPlayerControls(k, entities.player);
-  entities.player.onCollide("door-exit", () => k.go("world"));
+  entities.player.onCollide("door-exit", () => {
+    gameState.setPreviousScene("dungeon");
+    k.go("world");
+  });
 
   k.camScale(4);
 }

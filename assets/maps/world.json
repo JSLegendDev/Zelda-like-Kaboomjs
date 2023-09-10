@@ -1168,6 +1168,30 @@
                  "width":0,
                  "x":512,
                  "y":80
+                }, 
+                {
+                 "height":0,
+                 "id":142,
+                 "name":"player-dungeon",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":176,
+                 "y":80
+                }, 
+                {
+                 "height":0,
+                 "id":143,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":176,
+                 "y":80
                 }],
          "offsetx":0,
          "offsety":-16,
@@ -1222,7 +1246,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":142,
+ "nextobjectid":144,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
