@@ -1,15 +1,16 @@
-class GlobalStateManager {
-  previousScene = null;
+function globalStateManager() {
+  let previousScene = null;
 
-  setPreviousScene(sceneName) {
-    this.previousScene = sceneName;
-  }
-
-  getPreviousScene() {
-    return this.previousScene;
-  }
+  return {
+    setPreviousScene: (sceneName) => {
+      previousScene = sceneName;
+    },
+    getPreviousScene: () => {
+      return previousScene;
+    },
+  };
 }
 
-const gameState = new GlobalStateManager();
+const gameState = globalStateManager();
 
 export default gameState;
