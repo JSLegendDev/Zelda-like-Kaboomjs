@@ -48,5 +48,26 @@ export default async function dungeon(k) {
     k.go("world");
   });
 
+  async function slideCamY(k, range, duration) {
+    const currentCamPos = k.camPos();
+    await k.tween(
+      currentCamPos.y,
+      currentCamPos.y + range,
+      duration,
+      (newPosY) => k.camPos(currentCamPos.x, newPosY),
+      k.easings.linear
+    );
+  }
+
+  entities.player.onCollide("door-entrance", async () => {
+    await slideCamY(k, -180, 1);
+    entities.player.pos.y -= 50;
+  });
+
+  entities.player.onCollide("door-exit-2", async () => {
+    await slideCamY(k, 180, 1);
+    entities.player.pos.y += 50;
+  });
+
   k.camScale(4);
 }

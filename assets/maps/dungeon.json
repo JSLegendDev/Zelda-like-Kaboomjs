@@ -513,7 +513,7 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":160,
+                 "width":64,
                  "x":144,
                  "y":160
                 }, 
@@ -626,6 +626,39 @@
                  "width":16,
                  "x":256,
                  "y":208
+                }, 
+                {
+                 "height":16,
+                 "id":23,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":80,
+                 "x":224,
+                 "y":160
+                }, 
+                {
+                 "height":16,
+                 "id":24,
+                 "name":"door-entrance",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":208,
+                 "y":160
+                }, 
+                {
+                 "height":16,
+                 "id":25,
+                 "name":"door-exit-2",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":208,
+                 "y":144
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -648,7 +681,7 @@
                  "visible":true,
                  "width":0,
                  "x":208,
-                 "y":320
+                 "y":336
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -657,7 +690,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":23,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
