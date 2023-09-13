@@ -35,6 +35,27 @@ export default async function dungeon(k) {
           );
           continue;
         }
+
+        if (object.name === "prison-door") {
+          map.add([
+            k.sprite("assets", { frame: 505 }),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.pos(object.x, object.y),
+            "prison-door",
+          ]);
+          continue;
+        }
+
+        if (object.name === "boulder") {
+          map.add([
+            k.sprite("assets", { frame: 392 }),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.pos(object.x, object.y),
+            "boulder",
+          ]);
+        }
       }
       continue;
     }
@@ -46,6 +67,25 @@ export default async function dungeon(k) {
   entities.player.onCollide("door-exit", () => {
     gameState.setPreviousScene("dungeon");
     k.go("world");
+  });
+
+  entities.player.onCollide("boulder", (boulder) => {
+    if (k.isKeyDown("up")) {
+      boulder.pos.y -= entities.player.pushPower;
+      return;
+    }
+    if (k.isKeyDown("down")) {
+      boulder.pos.y += entities.player.pushPower;
+      return;
+    }
+    if (k.isKeyDown("left")) {
+      boulder.pos.x -= entities.player.pushPower;
+      return;
+    }
+    if (k.isKeyDown("right")) {
+      boulder.pos.x += entities.player.pushPower;
+      return;
+    }
   });
 
   async function slideCamY(k, range, duration) {

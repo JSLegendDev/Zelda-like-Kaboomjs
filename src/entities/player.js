@@ -11,6 +11,7 @@ export function generatePlayerComponents(k, pos) {
     k.health(6),
     {
       speed: 80,
+      pushPower: 30,
     },
     "player",
   ];
