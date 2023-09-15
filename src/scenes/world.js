@@ -66,8 +66,16 @@ export default async function world(k) {
 
   k.camScale(4);
   k.camPos(entities.player.worldPos());
-  k.onUpdate(() => {
-    k.camPos(entities.player.worldPos());
+  k.onUpdate(async () => {
+    if (entities.player.pos.dist(k.camPos()) > 3) {
+      await k.tween(
+        k.camPos(),
+        entities.player.worldPos(),
+        0.1,
+        (newPos) => k.camPos(newPos),
+        k.easings.linear
+      );
+    }
   });
 
   for (const slime of entities.slimes) {

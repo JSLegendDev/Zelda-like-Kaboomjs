@@ -27,6 +27,10 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
       to: 1017,
       loop: true,
     },
+    "player-attack-up": 1094,
+    "player-attack-down": 1092,
+    "player-attack-left": 1093,
+    "player-attack-right": 1093,
     "slime-idle-down": 858,
     "slime-down": { from: 858, to: 859, loop: true },
     "slime-idle-side": 860,
@@ -47,4 +51,4 @@ for (const sceneName in scenes) {
   k.scene(sceneName, () => scenes[sceneName](k));
 }
 
-k.go("dungeon");
+k.go("world");
