@@ -1,3 +1,4 @@
+import gameState from "../globalStateManager.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
 export function generateOldManComponents(k, pos) {
@@ -14,6 +15,7 @@ export function generateOldManComponents(k, pos) {
 }
 
 export function startInteraction(k, oldman, player) {
+  gameState.setIsSwordEquipped(true);
   if (player.direction === "left") {
     oldman.flipX = true;
     playAnimIfNotPlaying(oldman, "oldman-side");

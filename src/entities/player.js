@@ -49,13 +49,13 @@ export function setPlayerControls(k, player) {
   });
 
   k.onKeyPress("space", () => {
-    if (!gameState.getIsSwordUnlocked()) return;
+    if (!gameState.getIsSwordEquipped()) return;
     player.isAttacking = true;
     playAnimIfNotPlaying(player, `player-attack-${player.direction}`);
   });
 
   k.onKeyRelease("space", () => {
-    if (!gameState.getIsSwordUnlocked()) return;
+    if (!gameState.getIsSwordEquipped()) return;
     if (player.direction === "left" || player.direction === "right") {
       playAnimIfNotPlaying(player, "player-side");
       return;
