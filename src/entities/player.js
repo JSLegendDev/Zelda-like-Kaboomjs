@@ -50,6 +50,14 @@ export function setPlayerControls(k, player) {
     playAnimIfNotPlaying(player, `player-attack-${player.direction}`);
   });
 
+  k.onKeyRelease("space", () => {
+    if (player.direction === "left" || player.direction === "right") {
+      playAnimIfNotPlaying(player, "player-side");
+      return;
+    }
+    playAnimIfNotPlaying(player, `player-${player.direction}`);
+  });
+
   k.onKeyRelease(() => {
     player.stop();
   });
