@@ -1,4 +1,9 @@
 import {
+  endInteraction,
+  generateOldManComponents,
+  startInteraction,
+} from "../entities/oldman.js";
+import {
   generatePlayerComponents,
   setPlayerControls,
 } from "../entities/player.js";
@@ -17,6 +22,7 @@ export default async function house(k) {
   const map = k.add([k.pos(520, 200)]);
 
   const entities = {
+    oldman: null,
     player: null,
   };
 
@@ -35,6 +41,13 @@ export default async function house(k) {
           );
           continue;
         }
+
+        if (object.name === "oldman") {
+          entities.oldman = map.add(
+            generateOldManComponents(k, k.vec2(object.x, object.y))
+          );
+          continue;
+        }
       }
 
       continue;
@@ -48,5 +61,13 @@ export default async function house(k) {
   entities.player.onCollide("door-exit", () => {
     gameState.setPreviousScene("house");
     k.go("world");
+  });
+
+  entities.player.onCollide("oldman", () => {
+    startInteraction(k, entities.oldman, entities.player);
+  });
+
+  entities.player.onCollideEnd("oldman", () => {
+    endInteraction(k, entities.oldman, entities.player);
   });
 }

@@ -244,6 +244,18 @@
                  "width":0,
                  "x":112,
                  "y":176
+                }, 
+                {
+                 "height":0,
+                 "id":26,
+                 "name":"oldman",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":128,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -252,7 +264,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":24,
+ "nextobjectid":27,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

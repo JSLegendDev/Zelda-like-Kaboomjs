@@ -37,6 +37,9 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
     "slime-side": { from: 860, to: 861, loop: true },
     "slime-idle-up": 897,
     "slime-up": { from: 897, to: 898, loop: true },
+    "oldman-down": 866,
+    "oldman-side": 907,
+    "oldman-up": 905,
   },
 });
 

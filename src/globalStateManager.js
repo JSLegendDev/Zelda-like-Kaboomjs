@@ -3,14 +3,17 @@ function globalStateManager() {
 
   function createInstance() {
     let previousScene = null;
+    let isSwordUnlocked = false;
 
     return {
       setPreviousScene: (sceneName) => {
         previousScene = sceneName;
       },
-      getPreviousScene: () => {
-        return previousScene;
+      getPreviousScene: () => previousScene,
+      setIsSwordUnlocked: (value) => {
+        isSwordUnlocked = value;
       },
+      getIsSwordUnlocked: () => isSwordUnlocked,
     };
   }
 

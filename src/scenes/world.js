@@ -71,7 +71,7 @@ export default async function world(k) {
       await k.tween(
         k.camPos(),
         entities.player.worldPos(),
-        0.1,
+        0.15,
         (newPos) => k.camPos(newPos),
         k.easings.linear
       );

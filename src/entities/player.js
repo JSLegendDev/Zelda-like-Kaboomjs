@@ -1,3 +1,4 @@
+import gameState from "../globalStateManager.js";
 import { isAnyOfTheseKeysDown, playAnimIfNotPlaying } from "../utils.js";
 
 export function generatePlayerComponents(k, pos) {
@@ -13,6 +14,7 @@ export function generatePlayerComponents(k, pos) {
       speed: 80,
       pushPower: 30,
       direction: "down",
+      isAttacking: false,
     },
     "player",
   ];
@@ -47,15 +49,19 @@ export function setPlayerControls(k, player) {
   });
 
   k.onKeyPress("space", () => {
+    if (!gameState.getIsSwordUnlocked()) return;
+    player.isAttacking = true;
     playAnimIfNotPlaying(player, `player-attack-${player.direction}`);
   });
 
   k.onKeyRelease("space", () => {
+    if (!gameState.getIsSwordUnlocked()) return;
     if (player.direction === "left" || player.direction === "right") {
       playAnimIfNotPlaying(player, "player-side");
       return;
     }
     playAnimIfNotPlaying(player, `player-${player.direction}`);
+    player.isAttacking = false;
   });
 
   k.onKeyRelease(() => {
