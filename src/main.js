@@ -47,8 +47,8 @@ k.loadSpriteAtlas("./assets/topdownasset.png", {
   "full-heart": {
     x: 0,
     y: 224,
-    width: 32,
-    height: 32,
+    width: 48,
+    height: 48,
   },
 });
 

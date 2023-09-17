@@ -1,5 +1,5 @@
 import gameState from "../globalStateManager.js";
-import { dialog } from "../UIComponents/dialog.js";
+import { dialog } from "../uiComponents/dialog.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
 export function generateOldManComponents(k, pos) {

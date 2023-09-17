@@ -1,3 +1,4 @@
+import { lifeBar } from "../UIComponents/lifebar.js";
 import {
   generatePlayerComponents,
   setPlayerControls,
@@ -81,4 +82,6 @@ export default async function world(k) {
   for (const slime of entities.slimes) {
     setSlimeAI(k, slime);
   }
+
+  lifeBar(k, entities.player);
 }
