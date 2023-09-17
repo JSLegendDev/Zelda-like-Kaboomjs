@@ -4,6 +4,7 @@ function globalStateManager() {
   function createInstance() {
     let previousScene = null;
     let isSwordEquipped = false;
+    let isDialogOn = false;
 
     return {
       setPreviousScene: (sceneName) => {
@@ -14,6 +15,10 @@ function globalStateManager() {
         isSwordEquipped = value;
       },
       getIsSwordEquipped: () => isSwordEquipped,
+      setIsDialogOn: (value) => {
+        isDialogOn = value;
+      },
+      getIsDialogOn: () => isDialogOn,
     };
   }
 

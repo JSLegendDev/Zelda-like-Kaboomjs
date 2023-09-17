@@ -1,3 +1,5 @@
+import gameState from "../globalStateManager.js";
+
 async function displayLine(textContainer, line) {
   for (const char of line) {
     await new Promise((resolve) =>
@@ -10,6 +12,8 @@ async function displayLine(textContainer, line) {
 }
 
 export async function dialog(k, pos, content) {
+  gameState.setIsDialogOn(true);
+
   const dialogBox = k.add([k.rect(800, 200), k.pos(pos), k.fixed()]);
   const textContainer = dialogBox.add([
     k.text("", {
@@ -34,6 +38,7 @@ export async function dialog(k, pos, content) {
     if (index === content.length - 1) {
       k.destroy(dialogBox);
       dialogKey.cancel();
+      gameState.setIsDialogOn(false);
       return;
     }
 

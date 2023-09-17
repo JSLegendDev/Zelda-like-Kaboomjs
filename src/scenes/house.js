@@ -64,9 +64,7 @@ export default async function house(k) {
   });
 
   entities.player.onCollide("oldman", async () => {
-    entities.player.isFreezed = true;
     await startInteraction(k, entities.oldman, entities.player);
-    entities.player.isFreezed = false;
   });
 
   entities.player.onCollideEnd("oldman", () => {
