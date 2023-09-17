@@ -43,6 +43,14 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
     "oldman-up": 905,
   },
 });
+k.loadSpriteAtlas("./assets/topdownasset.png", {
+  "full-heart": {
+    x: 0,
+    y: 224,
+    width: 32,
+    height: 32,
+  },
+});
 
 const scenes = {
   world,
