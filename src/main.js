@@ -6,7 +6,6 @@ import house from "./scenes/house.js";
 import dungeon from "./scenes/dungeon.js";
 
 k.loadFont("gameboy", "assets/gb.ttf");
-k.loadFont("pixelOperator", "./assets/PixelOperator.ttf");
 k.loadSprite("assets", "./assets/topdownasset.png", {
   sliceX: 39,
   sliceY: 31,
