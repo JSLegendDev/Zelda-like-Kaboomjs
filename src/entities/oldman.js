@@ -1,4 +1,5 @@
 import gameState from "../globalStateManager.js";
+import { dialog } from "../uiComponents/dialog.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
 export function generateOldManComponents(k, pos) {
@@ -14,8 +15,7 @@ export function generateOldManComponents(k, pos) {
   ];
 }
 
-export function startInteraction(k, oldman, player) {
-  gameState.setIsSwordEquipped(true);
+export async function startInteraction(k, oldman, player) {
   if (player.direction === "left") {
     oldman.flipX = true;
     playAnimIfNotPlaying(oldman, "oldman-side");
@@ -29,6 +29,14 @@ export function startInteraction(k, oldman, player) {
   if (player.direction === "down") {
     playAnimIfNotPlaying(oldman, "oldman-up");
   }
+
+  await dialog(k, k.vec2(250, 500), [
+    "It's dangerous to go alone!",
+    "Take this sword, press space to use it.",
+    "Please save my son who's captured in a dungeon towards the west.",
+    "I will reward you handsomely!",
+  ]);
+  gameState.setIsSwordEquipped(true);
 }
 
 export function endInteraction(k, oldman, player) {
