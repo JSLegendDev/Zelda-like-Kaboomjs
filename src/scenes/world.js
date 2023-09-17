@@ -1,4 +1,4 @@
-import { lifeBar } from "../UIComponents/lifebar.js";
+import { healthBar } from "../uiComponents/healthbar.js";
 import {
   generatePlayerComponents,
   setPlayerControls,
@@ -83,5 +83,5 @@ export default async function world(k) {
     setSlimeAI(k, slime);
   }
 
-  lifeBar(k, entities.player);
+  healthBar(k, entities.player);
 }

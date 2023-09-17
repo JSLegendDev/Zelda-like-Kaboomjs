@@ -1,4 +1,4 @@
-export function lifeBar(k, player) {
+export function healthbarBar(k, player) {
   player.hurt(1);
   let nbOfFullHearts = 0;
   let addHalfHeart = false;
