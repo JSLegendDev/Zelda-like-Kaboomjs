@@ -9,17 +9,24 @@ export function generatePlayerComponents(k, pos) {
     k.area({ shape: new k.Rect(k.vec2(2, 4), 12, 12) }),
     k.body(),
     k.pos(pos),
-    k.health(12),
     {
       speed: 80,
-      pushPower: 30,
+      attackPower: 1,
       direction: "down",
       isAttacking: false,
       isFrozen: false,
-      maxHealth: 12,
     },
     "player",
   ];
+}
+
+export function watchPlayerHealth(k) {
+  k.onUpdate(() => {
+    if (gameState.getHealth() <= 0) {
+      gameState.setHealth(gameState.getMaxHealth());
+      k.go("gameOver");
+    }
+  });
 }
 
 export function setPlayerControls(k, player) {
@@ -58,6 +65,8 @@ export function setPlayerControls(k, player) {
     if (gameState.getIsDialogOn()) return;
     if (!gameState.getIsSwordEquipped()) return;
     player.isAttacking = true;
+
+    player.add([k.rect(12, 12), k.pos(-10, 0)]);
     playAnimIfNotPlaying(player, `player-attack-${player.direction}`);
   });
 

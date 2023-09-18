@@ -5,6 +5,8 @@ function globalStateManager() {
     let previousScene = null;
     let isSwordEquipped = false;
     let isDialogOn = false;
+    const maxHealth = 3;
+    let health = maxHealth;
 
     return {
       setPreviousScene: (sceneName) => {
@@ -19,6 +21,11 @@ function globalStateManager() {
         isDialogOn = value;
       },
       getIsDialogOn: () => isDialogOn,
+      getMaxHealth: () => maxHealth,
+      setHealth: (value) => {
+        health = value;
+      },
+      getHealth: () => health,
     };
   }
 

@@ -11,10 +11,14 @@ export function generateSlimeComponents(k, pos) {
     k.offscreen(),
     k.timer(),
     k.state("idle", ["idle", ...slimeMovementStates]),
+    k.health(3),
+    k.opacity(),
     {
       speed: 50,
       lineOfSight: 30,
+      attackPower: 0.5,
     },
+    "slime",
   ];
 }
 

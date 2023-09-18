@@ -2,6 +2,7 @@ import { healthBar } from "../uiComponents/healthbar.js";
 import {
   generatePlayerComponents,
   setPlayerControls,
+  watchPlayerHealth,
 } from "../entities/player.js";
 import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
 import gameState from "../globalStateManager.js";
@@ -81,7 +82,36 @@ export default async function world(k) {
 
   for (const slime of entities.slimes) {
     setSlimeAI(k, slime);
+    slime.onCollide("player", async (player) => {
+      if (slime.hp() <= 0) {
+        k.destroy(slime);
+      }
+
+      if (player.isAttacking) {
+        await slime.tween(
+          slime.opacity,
+          0,
+          0.2,
+          (val) => (slime.opacity = val),
+          k.easings.linear
+        );
+        await slime.tween(
+          slime.opacity,
+          1,
+          0.2,
+          (val) => (slime.opacity = val),
+          k.easings.linear
+        );
+        slime.hurt(1);
+        return;
+      }
+
+      gameState.setHealth(gameState.getHealth() - slime.attackPower);
+      k.destroyAll("healthContainer");
+      healthBar(k, player);
+    });
   }
 
   healthBar(k, entities.player);
+  watchPlayerHealth(k);
 }
