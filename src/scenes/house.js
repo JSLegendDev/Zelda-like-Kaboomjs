@@ -8,6 +8,7 @@ import {
   setPlayerControls,
 } from "../entities/player.js";
 import gameState from "../globalStateManager.js";
+import { healthBar } from "../uiComponents/healthbar.js";
 import {
   colorizeBackground,
   drawBoundaries,
@@ -70,4 +71,6 @@ export default async function house(k) {
   entities.player.onCollideEnd("oldman", () => {
     endInteraction(k, entities.oldman, entities.player);
   });
+
+  healthBar(k, entities.player);
 }

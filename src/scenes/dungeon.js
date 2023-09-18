@@ -10,6 +10,7 @@ import {
   setPlayerControls,
 } from "../entities/player.js";
 import gameState from "../globalStateManager.js";
+import { healthBar } from "../uiComponents/healthbar.js";
 
 export default async function dungeon(k) {
   colorizeBackground(k, 27, 29, 52);
@@ -110,4 +111,5 @@ export default async function dungeon(k) {
   });
 
   k.camScale(4);
+  healthBar(k, entities.player);
 }

@@ -9,13 +9,14 @@ export function generatePlayerComponents(k, pos) {
     k.area({ shape: new k.Rect(k.vec2(2, 4), 12, 12) }),
     k.body(),
     k.pos(pos),
-    k.health(6),
+    k.health(12),
     {
       speed: 80,
       pushPower: 30,
       direction: "down",
       isAttacking: false,
       isFrozen: false,
+      maxHealth: 12,
     },
     "player",
   ];
