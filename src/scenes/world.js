@@ -11,6 +11,7 @@ import {
   drawTiles,
   fetchMapData,
   drawBoundaries,
+  blinkEffect,
 } from "../utils.js";
 
 export default async function world(k) {
@@ -82,33 +83,20 @@ export default async function world(k) {
 
   for (const slime of entities.slimes) {
     setSlimeAI(k, slime);
-    slime.onCollide("player", async (player) => {
+    slime.onCollide("swordHitBox", async () => {
       if (slime.hp() <= 0) {
         k.destroy(slime);
       }
 
-      if (player.isAttacking) {
-        await slime.tween(
-          slime.opacity,
-          0,
-          0.2,
-          (val) => (slime.opacity = val),
-          k.easings.linear
-        );
-        await slime.tween(
-          slime.opacity,
-          1,
-          0.2,
-          (val) => (slime.opacity = val),
-          k.easings.linear
-        );
-        slime.hurt(1);
-        return;
-      }
+      await blinkEffect(k, slime);
+      slime.hurt(1);
+    });
 
+    slime.onCollide("player", async (player) => {
       gameState.setHealth(gameState.getHealth() - slime.attackPower);
       k.destroyAll("healthContainer");
       healthBar(k, player);
+      await blinkEffect(k, player);
     });
   }
 

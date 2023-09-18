@@ -9,6 +9,7 @@ export function generatePlayerComponents(k, pos) {
     k.area({ shape: new k.Rect(k.vec2(2, 4), 12, 12) }),
     k.body(),
     k.pos(pos),
+    k.opacity(),
     {
       speed: 80,
       attackPower: 1,
@@ -66,7 +67,32 @@ export function setPlayerControls(k, player) {
     if (!gameState.getIsSwordEquipped()) return;
     player.isAttacking = true;
 
-    player.add([k.rect(12, 12), k.pos(-10, 0)]);
+    if (k.get("swordHitBox").length === 0) {
+      const swordHitBoxPosX = {
+        left: player.worldPos().x - 10,
+        right: player.worldPos().x + 10,
+        up: player.worldPos().x,
+        down: player.worldPos().x,
+      };
+
+      const swordHitBoxPosY = {
+        left: player.worldPos().y,
+        right: player.worldPos().y,
+        up: player.worldPos().y - 10,
+        down: player.worldPos().y + 10,
+      };
+
+      k.add([
+        k.area({ shape: new k.Rect(k.vec2(0), 12, 12) }),
+        k.pos(
+          swordHitBoxPosX[player.direction],
+          swordHitBoxPosY[player.direction]
+        ),
+        "swordHitBox",
+      ]);
+      k.wait(0.1, () => k.destroyAll("swordHitBox"));
+    }
+
     playAnimIfNotPlaying(player, `player-attack-${player.direction}`);
   });
 

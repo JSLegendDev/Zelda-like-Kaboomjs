@@ -68,3 +68,20 @@ export function generateColliderBoxComponents(k, width, height, pos, tag) {
     tag,
   ];
 }
+
+export async function blinkEffect(k, entity) {
+  await k.tween(
+    entity.opacity,
+    0,
+    0.2,
+    (val) => (entity.opacity = val),
+    k.easings.linear
+  );
+  await k.tween(
+    entity.opacity,
+    1,
+    0.2,
+    (val) => (entity.opacity = val),
+    k.easings.linear
+  );
+}
