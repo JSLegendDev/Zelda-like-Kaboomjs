@@ -48,7 +48,7 @@ export async function startInteraction(k, oldman, player) {
 
   let nbTalkedOldMan = gameState.getNbTalkedOldMan();
   if (nbTalkedOldMan > responses.length - 1) {
-    gameState.setNbTalkedOldMan(0);
+    gameState.setNbTalkedOldMan(1);
     nbTalkedOldMan = gameState.getNbTalkedOldMan();
   }
 
