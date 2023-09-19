@@ -35,7 +35,7 @@ export async function dialog(k, pos, content) {
     if (!lineFinishedDisplayed) return;
 
     index++;
-    if (index === content.length - 1) {
+    if (index >= content.length - 1) {
       k.destroy(dialogBox);
       dialogKey.cancel();
       gameState.setIsDialogOn(false);

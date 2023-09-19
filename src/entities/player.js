@@ -33,7 +33,7 @@ export function watchPlayerHealth(k) {
 export function setPlayerControls(k, player) {
   k.onKeyDown("left", () => {
     if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["right", "up", "down"])) return;
+    if (isAnyOfTheseKeysDown(k, ["right", "up", "down", "space"])) return;
     player.flipX = true;
     playAnimIfNotPlaying(player, "player-side");
     player.move(-player.speed, 0);
@@ -41,7 +41,7 @@ export function setPlayerControls(k, player) {
   });
   k.onKeyDown("right", () => {
     if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["left", "up", "down"])) return;
+    if (isAnyOfTheseKeysDown(k, ["left", "up", "down", "space"])) return;
     player.flipX = false;
     playAnimIfNotPlaying(player, "player-side");
     player.move(player.speed, 0);
@@ -49,14 +49,14 @@ export function setPlayerControls(k, player) {
   });
   k.onKeyDown("up", () => {
     if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["left", "right", "down"])) return;
+    if (isAnyOfTheseKeysDown(k, ["left", "right", "down", "space"])) return;
     playAnimIfNotPlaying(player, "player-up");
     player.move(0, -player.speed);
     player.direction = "up";
   });
   k.onKeyDown("down", () => {
     if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["left", "right", "up"])) return;
+    if (isAnyOfTheseKeysDown(k, ["left", "right", "up", "space"])) return;
     playAnimIfNotPlaying(player, "player-down");
     player.move(0, player.speed);
     player.direction = "down";

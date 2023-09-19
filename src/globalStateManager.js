@@ -7,6 +7,7 @@ function globalStateManager() {
     let isDialogOn = false;
     const maxHealth = 3;
     let health = maxHealth;
+    let nbTalkedOldMan = 0;
 
     return {
       setPreviousScene: (sceneName) => {
@@ -26,6 +27,10 @@ function globalStateManager() {
         health = value;
       },
       getHealth: () => health,
+      setNbTalkedOldMan: (value) => {
+        nbTalkedOldMan = value;
+      },
+      getNbTalkedOldMan: () => nbTalkedOldMan,
     };
   }
 
