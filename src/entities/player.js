@@ -1,4 +1,4 @@
-import gameState from "../globalStateManager.js";
+import { gameState, playerState } from "../state/stateManagers.js";
 import { isAnyOfTheseKeysDown, playAnimIfNotPlaying } from "../utils.js";
 
 export function generatePlayerComponents(k, pos) {
@@ -23,8 +23,8 @@ export function generatePlayerComponents(k, pos) {
 
 export function watchPlayerHealth(k) {
   k.onUpdate(() => {
-    if (gameState.getHealth() <= 0) {
-      gameState.setHealth(gameState.getMaxHealth());
+    if (playerState.getHealth() <= 0) {
+      playerState.setHealth(playerState.getMaxHealth());
       k.go("gameOver");
     }
   });
@@ -64,7 +64,7 @@ export function setPlayerControls(k, player) {
 
   k.onKeyPress("space", () => {
     if (gameState.getIsDialogOn()) return;
-    if (!gameState.getIsSwordEquipped()) return;
+    if (!playerState.getIsSwordEquipped()) return;
     player.isAttacking = true;
 
     if (k.get("swordHitBox").length === 0) {
@@ -98,7 +98,7 @@ export function setPlayerControls(k, player) {
 
   k.onKeyRelease("space", () => {
     if (gameState.getIsDialogOn()) return;
-    if (!gameState.getIsSwordEquipped()) return;
+    if (!playerState.getIsSwordEquipped()) return;
     if (player.direction === "left" || player.direction === "right") {
       playAnimIfNotPlaying(player, "player-side");
       return;

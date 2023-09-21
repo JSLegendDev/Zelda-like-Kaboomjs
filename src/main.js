@@ -4,7 +4,6 @@ import gameOver from "./scenes/gameOver.js";
 import world from "./scenes/world.js";
 import house from "./scenes/house.js";
 import dungeon from "./scenes/dungeon.js";
-import gameState from "./globalStateManager.js";
 
 k.loadFont("gameboy", "assets/gb.ttf");
 k.loadSprite("assets", "./assets/topdownasset.png", {

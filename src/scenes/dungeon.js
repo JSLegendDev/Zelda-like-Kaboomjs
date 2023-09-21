@@ -9,7 +9,7 @@ import {
   generatePlayerComponents,
   setPlayerControls,
 } from "../entities/player.js";
-import gameState from "../globalStateManager.js";
+import { gameState } from "../state/stateManagers.js";
 import { healthBar } from "../uiComponents/healthbar.js";
 
 export default async function dungeon(k) {
@@ -111,5 +111,5 @@ export default async function dungeon(k) {
   });
 
   k.camScale(4);
-  healthBar(k, entities.player);
+  healthBar(k);
 }

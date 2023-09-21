@@ -5,7 +5,7 @@ import {
   watchPlayerHealth,
 } from "../entities/player.js";
 import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
-import gameState from "../globalStateManager.js";
+import { gameState, playerState } from "../state/stateManagers.js";
 import {
   colorizeBackground,
   drawTiles,
@@ -93,13 +93,13 @@ export default async function world(k) {
     });
 
     slime.onCollide("player", async (player) => {
-      gameState.setHealth(gameState.getHealth() - slime.attackPower);
+      playerState.setHealth(playerState.getHealth() - slime.attackPower);
       k.destroyAll("healthContainer");
       healthBar(k, player);
       await blinkEffect(k, player);
     });
   }
 
-  healthBar(k, entities.player);
+  healthBar(k);
   watchPlayerHealth(k);
 }

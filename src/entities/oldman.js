@@ -1,4 +1,4 @@
-import gameState from "../globalStateManager.js";
+import { playerState, oldManState } from "../state/stateManagers.js";
 import { dialog } from "../uiComponents/dialog.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
@@ -29,7 +29,6 @@ export async function startInteraction(k, oldman, player) {
   if (player.direction === "down") {
     playAnimIfNotPlaying(oldman, "oldman-up");
   }
-  gameState.setIsSwordEquipped(true);
 
   const responses = [
     [
@@ -46,15 +45,17 @@ export async function startInteraction(k, oldman, player) {
     ["Please save my son!"],
   ];
 
-  let nbTalkedOldMan = gameState.getNbTalkedOldMan();
+  playerState.setIsSwordEquipped(true);
+
+  let nbTalkedOldMan = oldManState.getNbTalkedOldMan();
   if (nbTalkedOldMan > responses.length - 1) {
-    gameState.setNbTalkedOldMan(1);
-    nbTalkedOldMan = gameState.getNbTalkedOldMan();
+    oldManState.setNbTalkedOldMan(1);
+    nbTalkedOldMan = oldManState.getNbTalkedOldMan();
   }
 
   if (responses[nbTalkedOldMan]) {
     await dialog(k, k.vec2(250, 500), responses[nbTalkedOldMan]);
-    gameState.setNbTalkedOldMan(nbTalkedOldMan + 1);
+    oldManState.setNbTalkedOldMan(nbTalkedOldMan + 1);
     return;
   }
 }

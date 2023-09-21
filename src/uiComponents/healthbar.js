@@ -1,15 +1,15 @@
-import gameState from "../globalStateManager.js";
+import { playerState } from "../state/stateManagers.js";
 
-export function healthBar(k, player) {
-  let nbFullHearts = Math.floor(gameState.getHealth());
+export function healthBar(k) {
+  let nbFullHearts = Math.floor(playerState.getHealth());
   let addHalfHeart = false;
 
-  if (gameState.getHealth() - nbFullHearts === 0.5) {
+  if (playerState.getHealth() - nbFullHearts === 0.5) {
     addHalfHeart = true;
   }
 
   let nbEmptyHearts =
-    gameState.getMaxHealth() - nbFullHearts - (addHalfHeart ? 1 : 0);
+    playerState.getMaxHealth() - nbFullHearts - (addHalfHeart ? 1 : 0);
 
   const heartsContainer = k.add([k.pos(20, 20), k.fixed(), "healthContainer"]);
 

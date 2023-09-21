@@ -7,7 +7,7 @@ import {
   generatePlayerComponents,
   setPlayerControls,
 } from "../entities/player.js";
-import gameState from "../globalStateManager.js";
+import { gameState } from "../state/stateManagers.js";
 import { healthBar } from "../uiComponents/healthbar.js";
 import {
   colorizeBackground,
@@ -72,5 +72,5 @@ export default async function house(k) {
     endInteraction(k, entities.oldman, entities.player);
   });
 
-  healthBar(k, entities.player);
+  healthBar(k);
 }
