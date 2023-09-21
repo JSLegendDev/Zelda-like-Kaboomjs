@@ -6,7 +6,7 @@ export function generatePlayerComponents(k, pos) {
     k.sprite("assets", {
       anim: "player-idle-down",
     }),
-    k.area({ shape: new k.Rect(k.vec2(2, 4), 12, 12) }),
+    k.area({ shape: new k.Rect(k.vec2(3, 4), 10, 12) }),
     k.body(),
     k.pos(pos),
     k.opacity(),
@@ -31,80 +31,85 @@ export function watchPlayerHealth(k) {
 }
 
 export function setPlayerControls(k, player) {
-  k.onKeyDown("left", () => {
+  k.onKeyDown((key) => {
     if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["right", "up", "down", "space"])) return;
-    player.flipX = true;
-    playAnimIfNotPlaying(player, "player-side");
-    player.move(-player.speed, 0);
-    player.direction = "left";
-  });
-  k.onKeyDown("right", () => {
-    if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["left", "up", "down", "space"])) return;
-    player.flipX = false;
-    playAnimIfNotPlaying(player, "player-side");
-    player.move(player.speed, 0);
-    player.direction = "right";
-  });
-  k.onKeyDown("up", () => {
-    if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["left", "right", "down", "space"])) return;
-    playAnimIfNotPlaying(player, "player-up");
-    player.move(0, -player.speed);
-    player.direction = "up";
-  });
-  k.onKeyDown("down", () => {
-    if (gameState.getIsDialogOn()) return;
-    if (isAnyOfTheseKeysDown(k, ["left", "right", "up", "space"])) return;
-    playAnimIfNotPlaying(player, "player-down");
-    player.move(0, player.speed);
-    player.direction = "down";
+    if (k.isKeyDown("space")) return;
+    if (["left"].includes(key)) {
+      if (isAnyOfTheseKeysDown(k, ["up", "down"])) return;
+      player.flipX = true;
+      playAnimIfNotPlaying(player, "player-side");
+      player.move(-player.speed, 0);
+      player.direction = "left";
+      return;
+    }
+
+    if (["right"].includes(key)) {
+      if (isAnyOfTheseKeysDown(k, ["up", "down"])) return;
+      player.flipX = false;
+      playAnimIfNotPlaying(player, "player-side");
+      player.move(player.speed, 0);
+      player.direction = "right";
+      return;
+    }
+
+    if (["up"].includes(key)) {
+      playAnimIfNotPlaying(player, "player-up");
+      player.move(0, -player.speed);
+      player.direction = "up";
+      return;
+    }
+
+    if (["down"].includes(key)) {
+      playAnimIfNotPlaying(player, "player-down");
+      player.move(0, player.speed);
+      player.direction = "down";
+      return;
+    }
   });
 
-  k.onKeyPress("space", () => {
+  k.onKeyPress((key) => {
+    if (!["space"].includes(key)) return;
     if (gameState.getIsDialogOn()) return;
     if (!playerState.getIsSwordEquipped()) return;
     player.isAttacking = true;
 
     if (k.get("swordHitBox").length === 0) {
       const swordHitBoxPosX = {
-        left: player.worldPos().x - 10,
+        left: player.worldPos().x - 2,
         right: player.worldPos().x + 10,
-        up: player.worldPos().x,
-        down: player.worldPos().x,
+        up: player.worldPos().x + 5,
+        down: player.worldPos().x + 2,
       };
 
       const swordHitBoxPosY = {
-        left: player.worldPos().y,
-        right: player.worldPos().y,
-        up: player.worldPos().y - 10,
+        left: player.worldPos().y + 5,
+        right: player.worldPos().y + 5,
+        up: player.worldPos().y,
         down: player.worldPos().y + 10,
       };
 
       k.add([
-        k.area({ shape: new k.Rect(k.vec2(0), 12, 12) }),
+        k.area({ shape: new k.Rect(k.vec2(0), 8, 8) }),
         k.pos(
           swordHitBoxPosX[player.direction],
           swordHitBoxPosY[player.direction]
         ),
         "swordHitBox",
       ]);
-      k.wait(0.1, () => k.destroyAll("swordHitBox"));
+      k.wait(0.1, () => {
+        k.destroyAll("swordHitBox");
+        if (player.direction === "left" || player.direction === "right") {
+          playAnimIfNotPlaying(player, "player-side");
+          player.stop();
+          return;
+        }
+        playAnimIfNotPlaying(player, `player-${player.direction}`);
+        player.stop();
+        player.isAttacking = false;
+      });
     }
 
     playAnimIfNotPlaying(player, `player-attack-${player.direction}`);
-  });
-
-  k.onKeyRelease("space", () => {
-    if (gameState.getIsDialogOn()) return;
-    if (!playerState.getIsSwordEquipped()) return;
-    if (player.direction === "left" || player.direction === "right") {
-      playAnimIfNotPlaying(player, "player-side");
-      return;
-    }
-    playAnimIfNotPlaying(player, `player-${player.direction}`);
-    player.isAttacking = false;
   });
 
   k.onKeyRelease(() => {

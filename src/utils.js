@@ -73,14 +73,14 @@ export async function blinkEffect(k, entity) {
   await k.tween(
     entity.opacity,
     0,
-    0.2,
+    0.1,
     (val) => (entity.opacity = val),
     k.easings.linear
   );
   await k.tween(
     entity.opacity,
     1,
-    0.2,
+    0.1,
     (val) => (entity.opacity = val),
     k.easings.linear
   );

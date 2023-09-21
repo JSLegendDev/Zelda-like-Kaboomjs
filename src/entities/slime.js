@@ -1,3 +1,6 @@
+import { playerState } from "../state/stateManagers.js";
+import { healthBar } from "../uiComponents/healthbar.js";
+import { blinkEffect } from "../utils.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
 const slimeMovementStates = ["left", "right", "up", "down"];
@@ -20,6 +23,27 @@ export function generateSlimeComponents(k, pos) {
     },
     "slime",
   ];
+}
+
+export function onAttacked(k, slime) {
+  slime.onCollide("swordHitBox", async () => {
+    if (slime.hp() <= 0) {
+      k.destroy(slime);
+    }
+
+    await blinkEffect(k, slime);
+    slime.hurt(1);
+  });
+}
+
+export function onCollideWithPlayer(k, slime) {
+  slime.onCollide("player", async (player) => {
+    if (player.isAttacking) return;
+    playerState.setHealth(playerState.getHealth() - slime.attackPower);
+    k.destroyAll("healthContainer");
+    healthBar(k, player);
+    await blinkEffect(k, player);
+  });
 }
 
 export function setSlimeAI(k, slime) {

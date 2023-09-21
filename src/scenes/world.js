@@ -4,14 +4,18 @@ import {
   setPlayerControls,
   watchPlayerHealth,
 } from "../entities/player.js";
-import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
-import { gameState, playerState } from "../state/stateManagers.js";
+import {
+  generateSlimeComponents,
+  onAttacked,
+  onCollideWithPlayer,
+  setSlimeAI,
+} from "../entities/slime.js";
+import { gameState } from "../state/stateManagers.js";
 import {
   colorizeBackground,
   drawTiles,
   fetchMapData,
   drawBoundaries,
-  blinkEffect,
 } from "../utils.js";
 
 export default async function world(k) {
@@ -83,21 +87,8 @@ export default async function world(k) {
 
   for (const slime of entities.slimes) {
     setSlimeAI(k, slime);
-    slime.onCollide("swordHitBox", async () => {
-      if (slime.hp() <= 0) {
-        k.destroy(slime);
-      }
-
-      await blinkEffect(k, slime);
-      slime.hurt(1);
-    });
-
-    slime.onCollide("player", async (player) => {
-      playerState.setHealth(playerState.getHealth() - slime.attackPower);
-      k.destroyAll("healthContainer");
-      healthBar(k, player);
-      await blinkEffect(k, player);
-    });
+    onAttacked(k, slime);
+    onCollideWithPlayer(k, slime);
   }
 
   healthBar(k);
