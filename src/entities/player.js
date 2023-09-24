@@ -11,7 +11,7 @@ export function generatePlayerComponents(k, pos) {
     k.pos(pos),
     k.opacity(),
     {
-      speed: 80,
+      speed: 100,
       attackPower: 1,
       direction: "down",
       isAttacking: false,

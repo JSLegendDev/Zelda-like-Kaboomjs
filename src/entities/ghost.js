@@ -13,9 +13,11 @@ export function generateGhostComponents(k, pos) {
       "spawn-down",
       "spawn-up",
       "attack",
+      "evade",
     ]),
     {
       attackPower: 0.5,
+      prevPos: k.vec2(0, 0),
     },
     "ghost",
   ];
@@ -28,6 +30,10 @@ export function setGhostAI(k, ghost, player) {
       updateRef.cancel();
       return;
     }
+  });
+
+  k.loop(5, () => {
+    ghost.prevPos = ghost.pos;
   });
 
   ghost.onStateEnter("spawn-up", async () => {
@@ -65,6 +71,22 @@ export function setGhostAI(k, ghost, player) {
       k.easings.linear
     );
 
+    if (ghost.getCollisions().length > 0) {
+      ghost.enterState("evade");
+      return;
+    }
+
+    ghost.enterState("attack");
+  });
+
+  ghost.onStateEnter("evade", async () => {
+    await k.tween(
+      ghost.pos,
+      ghost.prevPos,
+      0.2,
+      (val) => (ghost.pos = val),
+      k.easings.linear
+    );
     ghost.enterState("attack");
   });
 }
