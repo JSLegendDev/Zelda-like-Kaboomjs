@@ -4,6 +4,8 @@ export default function globalStateManager() {
   function createInstance() {
     let previousScene = null;
     let isDialogOn = false;
+    let locale = "english";
+    let fontSize = 30;
 
     return {
       setPreviousScene: (sceneName) => {
@@ -14,6 +16,14 @@ export default function globalStateManager() {
         isDialogOn = value;
       },
       getIsDialogOn: () => isDialogOn,
+      setLocale: (language) => {
+        locale = language;
+      },
+      getLocale: () => locale,
+      setFontSize: (size) => {
+        fontSize = size;
+      },
+      getFontSize: () => fontSize,
     };
   }
 

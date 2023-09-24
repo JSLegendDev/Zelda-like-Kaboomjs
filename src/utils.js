@@ -47,7 +47,7 @@ export function drawBoundaries(k, map, layer) {
         object.width,
         object.height,
         k.vec2(object.x, object.y),
-        object.name
+        object.name !== "" ? object.name : "wall"
       )
     );
   }

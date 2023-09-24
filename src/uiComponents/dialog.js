@@ -20,7 +20,7 @@ export async function dialog(k, pos, content) {
       font: "gameboy",
       width: 700,
       lineSpacing: 15,
-      size: 30,
+      size: gameState.getFontSize(),
     }),
     k.color(0, 0, 0),
     k.pos(20, 40),
@@ -35,7 +35,7 @@ export async function dialog(k, pos, content) {
     if (!lineFinishedDisplayed) return;
 
     index++;
-    if (index >= content.length - 1) {
+    if (!content[index]) {
       k.destroy(dialogBox);
       dialogKey.cancel();
       gameState.setIsDialogOn(false);

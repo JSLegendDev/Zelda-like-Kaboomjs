@@ -17,7 +17,7 @@ export function generateSlimeComponents(k, pos) {
     k.health(3),
     k.opacity(),
     {
-      speed: 50,
+      speed: 100,
       lineOfSight: 30,
       attackPower: 0.5,
     },
@@ -47,78 +47,77 @@ export function onCollideWithPlayer(k, slime) {
 }
 
 export function setSlimeAI(k, slime) {
-  slime.onStateEnter("idle", () => {
-    slime.stop();
-    slime.wait(2, () => {
-      slime.enterState(
-        slimeMovementStates[
-          Math.floor(Math.random() * slimeMovementStates.length)
-        ]
-      );
-    });
+  k.onUpdate(() => {
+    switch (slime.state) {
+      case "right":
+        slime.move(slime.speed, 0);
+        break;
+      case "left":
+        slime.move(-slime.speed, 0);
+        break;
+      case "up":
+        slime.move(0, -slime.speed);
+        break;
+      case "down":
+        slime.move(0, slime.speed);
+        break;
+      default:
+        break;
+    }
   });
-  slime.onStateEnter("left", async () => {
-    slime.flipX = true;
-    playAnimIfNotPlaying(slime, "slime-side");
-    let stop = false;
-    const movementUpdate = k.onUpdate(() => {
-      if (stop) {
-        movementUpdate.cancel();
+
+  slime.onCollide("wall", () => {
+    if (slime.state !== "idle") slime.enterState("idle");
+  });
+
+  slime.onStateEnter("idle", async () => {
+    slime.stop();
+    await k.wait(1);
+    slime.enterState(
+      slimeMovementStates[
+        Math.floor(Math.random() * slimeMovementStates.length)
+      ]
+    );
+  });
+
+  function setMovementLoop(k, duration, nextState) {
+    let timePassed = 1;
+    const movementLoopRef = k.loop(1, () => {
+      if (slime.state === "idle") {
+        movementLoopRef.cancel();
         return;
       }
-      slime.move(-slime.speed, 0);
+
+      if (timePassed === duration) {
+        slime.enterState(nextState);
+        movementLoopRef.cancel();
+        return;
+      }
+
+      timePassed++;
     });
-    slime.wait(3, () => {
-      stop = true;
-      slime.enterState("idle");
-    });
-  });
+  }
+
   slime.onStateEnter("right", async () => {
     slime.flipX = false;
     playAnimIfNotPlaying(slime, "slime-side");
-    let stop = false;
-    const movementUpdate = k.onUpdate(() => {
-      if (stop) {
-        movementUpdate.cancel();
-        return;
-      }
-      slime.move(slime.speed, 0);
-    });
-    slime.wait(3, () => {
-      stop = true;
-      slime.enterState("idle");
-    });
+
+    setMovementLoop(k, 3, "left");
   });
-  slime.onStateEnter("up", async () => {
-    slime.flipX = false;
+
+  slime.onStateEnter("left", async () => {
+    slime.flipX = true;
+    playAnimIfNotPlaying(slime, "slime-side");
+    setMovementLoop(k, 3, "right");
+  });
+
+  slime.onStateEnter("up", () => {
     playAnimIfNotPlaying(slime, "slime-up");
-    let stop = false;
-    const movementUpdate = k.onUpdate(() => {
-      if (stop) {
-        movementUpdate.cancel();
-        return;
-      }
-      slime.move(0, -slime.speed);
-    });
-    slime.wait(3, () => {
-      stop = true;
-      slime.enterState("idle");
-    });
+    setMovementLoop(k, 3, "left");
   });
-  slime.onStateEnter("down", async () => {
-    slime.flipX = false;
+
+  slime.onStateEnter("down", () => {
     playAnimIfNotPlaying(slime, "slime-down");
-    let stop = false;
-    const movementUpdate = k.onUpdate(() => {
-      if (stop) {
-        movementUpdate.cancel();
-        return;
-      }
-      slime.move(0, slime.speed);
-    });
-    slime.wait(3, () => {
-      stop = true;
-      slime.enterState("idle");
-    });
+    setMovementLoop(k, 3, "right");
   });
 }

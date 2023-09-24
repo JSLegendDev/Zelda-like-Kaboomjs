@@ -11,6 +11,9 @@ import {
 } from "../entities/player.js";
 import { gameState } from "../state/stateManagers.js";
 import { healthBar } from "../uiComponents/healthbar.js";
+import { dialog } from "../uiComponents/dialog.js";
+import sonLines from "../content/sonDialogue.js";
+import { generateGhostComponents } from "../entities/ghost.js";
 
 export default async function dungeon(k) {
   colorizeBackground(k, 27, 29, 52);
@@ -19,6 +22,7 @@ export default async function dungeon(k) {
 
   const entities = {
     player: null,
+    ghost: null,
   };
 
   const layers = mapData.layers;
@@ -33,6 +37,13 @@ export default async function dungeon(k) {
         if (object.name === "player") {
           entities.player = map.add(
             generatePlayerComponents(k, k.vec2(object.x, object.y))
+          );
+          continue;
+        }
+
+        if (object.name === "ghost") {
+          entities.ghost = map.add(
+            generateGhostComponents(k, k.vec2(object.x, object.y))
           );
           continue;
         }
@@ -108,6 +119,10 @@ export default async function dungeon(k) {
   entities.player.onCollide("door-exit-2", async () => {
     await slideCamY(k, 180, 1);
     entities.player.pos.y += 50;
+  });
+
+  entities.player.onCollide("prison-door", async () => {
+    await dialog(k, k.vec2(250, 500), sonLines[gameState.getLocale()][0]);
   });
 
   k.camScale(4);

@@ -1,6 +1,7 @@
-import { playerState, oldManState } from "../state/stateManagers.js";
+import { playerState, oldManState, gameState } from "../state/stateManagers.js";
 import { dialog } from "../uiComponents/dialog.js";
 import { playAnimIfNotPlaying } from "../utils.js";
+import oldmanLines from "../content/oldmanDialogue.js";
 
 export function generateOldManComponents(k, pos) {
   return [
@@ -30,20 +31,8 @@ export async function startInteraction(k, oldman, player) {
     playAnimIfNotPlaying(oldman, "oldman-up");
   }
 
-  const responses = [
-    [
-      "It's dangerous to go alone!",
-      "Take this sword, press space to use it.",
-      "Please save my son! He's captured in a dungeon towards the west.",
-      "I will reward you handsomely!",
-    ],
-    [
-      "You forgot how to use your sword?",
-      "Press the space key to attack.",
-      "Please now go save my son before it's too late!",
-    ],
-    ["Please save my son!"],
-  ];
+  if (gameState.getLocale() === "french") gameState.setFontSize(28);
+  const responses = oldmanLines[gameState.getLocale()];
 
   playerState.setIsSwordEquipped(true);
 

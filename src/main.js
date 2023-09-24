@@ -41,6 +41,9 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
     "oldman-down": 866,
     "oldman-side": 907,
     "oldman-up": 905,
+    "ghost-down": { from: 862, to: 863, loop: true },
+    "ghost-up": { from: 901, to: 902, loop: true },
+    "ghost-side": { from: 864, to: 865, loop: true },
   },
 });
 k.loadSpriteAtlas("./assets/topdownasset.png", {
