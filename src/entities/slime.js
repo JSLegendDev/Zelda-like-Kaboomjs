@@ -8,7 +8,10 @@ const slimeMovementStates = ["left", "right", "up", "down"];
 export function generateSlimeComponents(k, pos) {
   return [
     k.sprite("assets", { frame: 858 }),
-    k.area({ shape: new k.Rect(k.vec2(0, 4), 16, 10) }),
+    k.area({
+      shape: new k.Rect(k.vec2(0, 4), 16, 10),
+      collisionIgnore: ["slime"],
+    }),
     k.body(),
     k.pos(pos),
     k.offscreen(),
@@ -23,27 +26,6 @@ export function generateSlimeComponents(k, pos) {
     },
     "slime",
   ];
-}
-
-export function onAttacked(k, slime) {
-  slime.onCollide("swordHitBox", async () => {
-    if (slime.hp() <= 0) {
-      k.destroy(slime);
-    }
-
-    await blinkEffect(k, slime);
-    slime.hurt(1);
-  });
-}
-
-export function onCollideWithPlayer(k, slime) {
-  slime.onCollide("player", async (player) => {
-    if (player.isAttacking) return;
-    playerState.setHealth(playerState.getHealth() - slime.attackPower);
-    k.destroyAll("healthContainer");
-    healthBar(k, player);
-    await blinkEffect(k, player);
-  });
 }
 
 export function setSlimeAI(k, slime) {

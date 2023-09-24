@@ -4,18 +4,15 @@ import {
   setPlayerControls,
   watchPlayerHealth,
 } from "../entities/player.js";
-import {
-  generateSlimeComponents,
-  onAttacked,
-  onCollideWithPlayer,
-  setSlimeAI,
-} from "../entities/slime.js";
+import { generateSlimeComponents, setSlimeAI } from "../entities/slime.js";
 import { gameState } from "../state/stateManagers.js";
 import {
   colorizeBackground,
   drawTiles,
   fetchMapData,
   drawBoundaries,
+  onAttacked,
+  onCollideWithPlayer,
 } from "../utils.js";
 
 export default async function world(k) {
