@@ -16,6 +16,7 @@ export function generateGhostComponents(k, pos) {
       "evade",
     ]),
     {
+      isAttacking: false,
       attackPower: 0.5,
       prevPos: k.vec2(0, 0),
     },
@@ -61,6 +62,7 @@ export function setGhostAI(k, ghost, player) {
   });
 
   ghost.onStateEnter("attack", async () => {
+    ghost.isAttacking = true;
     const attackSpeeds = [0.5, 0.8, 1];
 
     await k.tween(
@@ -80,10 +82,11 @@ export function setGhostAI(k, ghost, player) {
   });
 
   ghost.onStateEnter("evade", async () => {
+    ghost.isAttacking = false;
     await k.tween(
       ghost.pos,
       ghost.prevPos,
-      0.2,
+      0.8,
       (val) => (ghost.pos = val),
       k.easings.linear
     );

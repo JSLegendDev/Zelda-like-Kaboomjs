@@ -91,6 +91,8 @@ export async function blinkEffect(k, entity) {
 
 export function onAttacked(k, entity) {
   entity.onCollide("swordHitBox", async () => {
+    if (entity.isAttacking) return;
+
     if (entity.hp() <= 0) {
       k.destroy(entity);
     }

@@ -105,7 +105,6 @@ export function setPlayerControls(k, player) {
         }
         playAnimIfNotPlaying(player, `player-${player.direction}`);
         player.stop();
-        player.isAttacking = false;
       });
     }
 
@@ -113,6 +112,7 @@ export function setPlayerControls(k, player) {
   });
 
   k.onKeyRelease(() => {
+    player.isAttacking = false;
     player.stop();
   });
 }
