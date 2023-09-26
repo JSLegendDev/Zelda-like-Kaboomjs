@@ -40,15 +40,21 @@ async function move(k, entity, isHorizontal, moveBy, duration) {
 }
 
 export function setSlimeAI(k, slime) {
-  slime.onStateEnter("idle", () => {
-    slime.stop();
+  k.onSceneLeave(() => {
+    idle.cancel();
+    right.cancel();
+    up.cancel();
+    down.cancel();
+  });
 
+  const idle = slime.onStateEnter("idle", () => {
+    slime.stop();
     slime.enterState(
       directionalStates[Math.floor(Math.random() * directionalStates.length)]
     );
   });
 
-  slime.onStateEnter("right", async () => {
+  const right = slime.onStateEnter("right", async () => {
     slime.flipX = false;
     playAnimIfNotPlaying(slime, "slime-side");
     await move(k, slime, true, 20, 1);
@@ -61,7 +67,7 @@ export function setSlimeAI(k, slime) {
     slime.enterState("right");
   });
 
-  slime.onStateEnter("left", async () => {
+  const left = slime.onStateEnter("left", async () => {
     slime.flipX = true;
     playAnimIfNotPlaying(slime, "slime-side");
     await move(k, slime, true, -20, 1);
@@ -74,7 +80,7 @@ export function setSlimeAI(k, slime) {
     slime.enterState("idle");
   });
 
-  slime.onStateEnter("up", async () => {
+  const up = slime.onStateEnter("up", async () => {
     playAnimIfNotPlaying(slime, "slime-up");
     await move(k, slime, false, -20, 1);
 
@@ -86,7 +92,7 @@ export function setSlimeAI(k, slime) {
     slime.enterState("idle");
   });
 
-  slime.onStateEnter("down", async () => {
+  const down = slime.onStateEnter("down", async () => {
     playAnimIfNotPlaying(slime, "slime-down");
     await move(k, slime, false, 20, 1);
 
