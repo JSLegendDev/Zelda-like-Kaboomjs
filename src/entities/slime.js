@@ -3,8 +3,7 @@ import { healthBar } from "../uiComponents/healthbar.js";
 import { blinkEffect } from "../utils.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
-const slimeMovementStates = ["left", "right", "up", "down"];
-
+const directionalStates = ["left", "right", "up", "down"];
 export function generateSlimeComponents(k, pos) {
   return [
     k.sprite("assets", { frame: 858 }),
@@ -16,7 +15,7 @@ export function generateSlimeComponents(k, pos) {
     k.pos(pos),
     k.offscreen(),
     k.timer(),
-    k.state("idle", ["idle", ...slimeMovementStates]),
+    k.state("idle", ["idle", ...directionalStates]),
     k.health(3),
     k.opacity(),
     {
@@ -28,78 +27,74 @@ export function generateSlimeComponents(k, pos) {
   ];
 }
 
+async function move(k, entity, isHorizontal, moveBy, duration) {
+  await entity.tween(
+    isHorizontal ? entity.pos.x : entity.pos.y,
+    isHorizontal ? entity.pos.x + moveBy : entity.pos.y + moveBy,
+    duration,
+    (val) => {
+      isHorizontal ? (entity.pos.x = val) : (entity.pos.y = val);
+    },
+    k.easings.linear
+  );
+}
+
 export function setSlimeAI(k, slime) {
-  k.onUpdate(() => {
-    switch (slime.state) {
-      case "right":
-        slime.move(slime.speed, 0);
-        break;
-      case "left":
-        slime.move(-slime.speed, 0);
-        break;
-      case "up":
-        slime.move(0, -slime.speed);
-        break;
-      case "down":
-        slime.move(0, slime.speed);
-        break;
-      default:
-        break;
-    }
-  });
-
-  slime.onCollide("wall", () => {
-    if (slime.state !== "idle") slime.enterState("idle");
-  });
-
-  slime.onStateEnter("idle", async () => {
+  slime.onStateEnter("idle", () => {
     slime.stop();
-    await k.wait(1);
+
     slime.enterState(
-      slimeMovementStates[
-        Math.floor(Math.random() * slimeMovementStates.length)
-      ]
+      directionalStates[Math.floor(Math.random() * directionalStates.length)]
     );
   });
-
-  function setMovementLoop(k, duration, nextState) {
-    let timePassed = 1;
-    const movementLoopRef = k.loop(1, () => {
-      if (slime.state === "idle") {
-        movementLoopRef.cancel();
-        return;
-      }
-
-      if (timePassed === duration) {
-        slime.enterState(nextState);
-        movementLoopRef.cancel();
-        return;
-      }
-
-      timePassed++;
-    });
-  }
 
   slime.onStateEnter("right", async () => {
     slime.flipX = false;
     playAnimIfNotPlaying(slime, "slime-side");
+    await move(k, slime, true, 20, 1);
 
-    setMovementLoop(k, 3, "left");
+    if (slime.getCollisions().length > 0) {
+      slime.enterState("left");
+      return;
+    }
+
+    slime.enterState("right");
   });
 
   slime.onStateEnter("left", async () => {
     slime.flipX = true;
     playAnimIfNotPlaying(slime, "slime-side");
-    setMovementLoop(k, 3, "right");
+    await move(k, slime, true, -20, 1);
+
+    if (slime.getCollisions().length > 0) {
+      slime.enterState("right");
+      return;
+    }
+
+    slime.enterState("idle");
   });
 
-  slime.onStateEnter("up", () => {
+  slime.onStateEnter("up", async () => {
     playAnimIfNotPlaying(slime, "slime-up");
-    setMovementLoop(k, 3, "left");
+    await move(k, slime, false, -20, 1);
+
+    if (slime.getCollisions().length > 0) {
+      slime.enterState("down");
+      return;
+    }
+
+    slime.enterState("idle");
   });
 
-  slime.onStateEnter("down", () => {
+  slime.onStateEnter("down", async () => {
     playAnimIfNotPlaying(slime, "slime-down");
-    setMovementLoop(k, 3, "right");
+    await move(k, slime, false, 20, 1);
+
+    if (slime.getCollisions().length > 0) {
+      slime.enterState("up");
+      return;
+    }
+
+    slime.enterState("idle");
   });
 }
