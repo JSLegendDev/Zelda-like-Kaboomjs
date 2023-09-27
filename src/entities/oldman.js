@@ -31,7 +31,6 @@ export async function startInteraction(k, oldman, player) {
     playAnimIfNotPlaying(oldman, "oldman-up");
   }
 
-  if (gameState.getLocale() === "french") gameState.setFontSize(28);
   const responses = oldmanLines[gameState.getLocale()];
 
   playerState.setIsSwordEquipped(true);

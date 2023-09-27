@@ -74,4 +74,4 @@ for (const sceneName in scenes) {
   k.scene(sceneName, () => scenes[sceneName](k));
 }
 
-k.go("world");
+k.go("mainMenu");
