@@ -109,12 +109,24 @@ export default async function dungeon(k) {
     entities.player.pos.y += 50;
   });
 
-  entities.player.onCollide("prison-door", async () => {
+  entities.player.onCollide("prison-door", async (prisonDoor) => {
     await dialog(
       k,
       k.vec2(250, 500),
       sonLines[gameState.getLocale()][playerState.getHasKey() ? 1 : 0]
     );
+
+    if (playerState.getHasKey()) {
+      prisonDoor.frame = 506;
+      prisonDoor.unuse("body");
+      prisonDoor.unuse("area");
+    }
+
+    gameState.setIsSonSaved(true);
+  });
+
+  entities.player.onCollide("son", async () => {
+    await dialog(k, k.vec2(250, 500), sonLines[gameState.getLocale()][2]);
   });
 
   setGhostAI(k, entities.ghost, entities.player);

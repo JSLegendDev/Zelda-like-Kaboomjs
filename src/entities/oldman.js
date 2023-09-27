@@ -36,8 +36,13 @@ export async function startInteraction(k, oldman, player) {
 
   playerState.setIsSwordEquipped(true);
 
+  if (gameState.getIsSonSaved()) {
+    await dialog(k, k.vec2(250, 500), responses[3]);
+    return;
+  }
+
   let nbTalkedOldMan = oldManState.getNbTalkedOldMan();
-  if (nbTalkedOldMan > responses.length - 1) {
+  if (nbTalkedOldMan > responses.length - 2) {
     oldManState.setNbTalkedOldMan(1);
     nbTalkedOldMan = oldManState.getNbTalkedOldMan();
   }
@@ -49,6 +54,6 @@ export async function startInteraction(k, oldman, player) {
   }
 }
 
-export function endInteraction(k, oldman, player) {
+export function endInteraction(oldman) {
   playAnimIfNotPlaying(oldman, "oldman-down");
 }

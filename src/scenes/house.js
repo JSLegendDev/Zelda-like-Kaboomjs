@@ -69,7 +69,7 @@ export default async function house(k) {
   });
 
   entities.player.onCollideEnd("oldman", () => {
-    endInteraction(k, entities.oldman, entities.player);
+    endInteraction(entities.oldman);
   });
 
   healthBar(k);

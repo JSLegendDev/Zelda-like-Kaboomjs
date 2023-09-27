@@ -99,7 +99,7 @@ export function setGhostAI(k, ghost, player) {
 export function onGhostDestroyed(k) {
   k.onDestroy("ghost", () => {
     const prisonKey = k.add([
-      k.sprite("assets", { anim: "prison-key" }),
+      k.sprite("assets", { frame: 99 }),
       k.pos(k.center().x + 4, k.center().y - 200),
       k.area(),
       "key",

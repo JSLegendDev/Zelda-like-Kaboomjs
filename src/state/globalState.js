@@ -7,6 +7,7 @@ export default function globalStateManager() {
     let locale = "english";
     let fontSize = 30;
     let isGhostDefeated = false;
+    let isSonSaved = false;
 
     return {
       setPreviousScene(sceneName) {
@@ -29,6 +30,10 @@ export default function globalStateManager() {
         isGhostDefeated = value;
       },
       getIsGhostDefeated: () => isGhostDefeated,
+      setIsSonSaved(value) {
+        isSonSaved = value;
+      },
+      getIsSonSaved: () => isSonSaved,
     };
   }
 
