@@ -12,11 +12,15 @@ import {
   setPlayerControls,
   watchPlayerHealth,
 } from "../entities/player.js";
-import { gameState } from "../state/stateManagers.js";
+import { gameState, playerState } from "../state/stateManagers.js";
 import { healthBar } from "../uiComponents/healthbar.js";
 import { dialog } from "../uiComponents/dialog.js";
 import sonLines from "../content/sonDialogue.js";
-import { generateGhostComponents, setGhostAI } from "../entities/ghost.js";
+import {
+  generateGhostComponents,
+  onGhostDestroyed,
+  setGhostAI,
+} from "../entities/ghost.js";
 
 export default async function dungeon(k) {
   colorizeBackground(k, 27, 29, 52);
@@ -84,25 +88,6 @@ export default async function dungeon(k) {
     k.go("world");
   });
 
-  entities.player.onCollide("boulder", (boulder) => {
-    if (k.isKeyDown("up")) {
-      boulder.pos.y -= entities.player.pushPower;
-      return;
-    }
-    if (k.isKeyDown("down")) {
-      boulder.pos.y += entities.player.pushPower;
-      return;
-    }
-    if (k.isKeyDown("left")) {
-      boulder.pos.x -= entities.player.pushPower;
-      return;
-    }
-    if (k.isKeyDown("right")) {
-      boulder.pos.x += entities.player.pushPower;
-      return;
-    }
-  });
-
   async function slideCamY(k, range, duration) {
     const currentCamPos = k.camPos();
     await k.tween(
@@ -125,12 +110,17 @@ export default async function dungeon(k) {
   });
 
   entities.player.onCollide("prison-door", async () => {
-    await dialog(k, k.vec2(250, 500), sonLines[gameState.getLocale()][0]);
+    await dialog(
+      k,
+      k.vec2(250, 500),
+      sonLines[gameState.getLocale()][playerState.getHasKey() ? 1 : 0]
+    );
   });
 
   setGhostAI(k, entities.ghost, entities.player);
   onAttacked(k, entities.ghost);
   onCollideWithPlayer(k, entities.ghost);
+  onGhostDestroyed(k);
 
   k.camScale(4);
   healthBar(k);

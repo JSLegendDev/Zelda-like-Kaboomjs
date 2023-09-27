@@ -5,7 +5,7 @@ export default function oldManGlobalStateManager() {
     let nbTalkedOldMan = 0;
 
     return {
-      setNbTalkedOldMan: (value) => {
+      setNbTalkedOldMan(value) {
         nbTalkedOldMan = value;
       },
       getNbTalkedOldMan: () => nbTalkedOldMan,
@@ -13,7 +13,7 @@ export default function oldManGlobalStateManager() {
   }
 
   return {
-    getInstance: () => {
+    getInstance() {
       if (!instance) {
         instance = createInstance();
       }

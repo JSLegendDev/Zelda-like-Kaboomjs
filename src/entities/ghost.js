@@ -1,3 +1,5 @@
+import { gameState, playerState } from "../state/stateManagers.js";
+
 export function generateGhostComponents(k, pos) {
   return [
     k.sprite("assets", { anim: "ghost-down" }),
@@ -6,15 +8,7 @@ export function generateGhostComponents(k, pos) {
     k.pos(pos),
     k.health(9),
     k.opacity(),
-    k.state("idle", [
-      "idle",
-      "right",
-      "left",
-      "spawn-down",
-      "spawn-up",
-      "attack",
-      "evade",
-    ]),
+    k.state("idle", ["idle", "right", "backtrack", "attack", "evade"]),
     {
       isAttacking: false,
       attackPower: 0.5,
@@ -27,7 +21,7 @@ export function generateGhostComponents(k, pos) {
 export function setGhostAI(k, ghost, player) {
   const updateRef = k.onUpdate(() => {
     if (player.pos.dist(ghost.pos) < 30) {
-      ghost.enterState("spawn-up");
+      ghost.enterState("backtrack");
       updateRef.cancel();
       return;
     }
@@ -37,7 +31,7 @@ export function setGhostAI(k, ghost, player) {
     ghost.prevPos = ghost.pos;
   });
 
-  ghost.onStateEnter("spawn-up", async () => {
+  const backtrack = ghost.onStateEnter("backtrack", async () => {
     await k.tween(
       ghost.pos.y,
       ghost.pos.y - 40,
@@ -49,7 +43,7 @@ export function setGhostAI(k, ghost, player) {
     ghost.enterState("right");
   });
 
-  ghost.onStateEnter("right", async () => {
+  const right = ghost.onStateEnter("right", async () => {
     await k.tween(
       ghost.pos.x,
       ghost.pos.x + 50,
@@ -61,7 +55,7 @@ export function setGhostAI(k, ghost, player) {
     ghost.enterState("attack");
   });
 
-  ghost.onStateEnter("attack", async () => {
+  const attack = ghost.onStateEnter("attack", async () => {
     ghost.isAttacking = true;
     const attackSpeeds = [0.5, 0.8, 1];
 
@@ -81,7 +75,7 @@ export function setGhostAI(k, ghost, player) {
     ghost.enterState("attack");
   });
 
-  ghost.onStateEnter("evade", async () => {
+  const evade = ghost.onStateEnter("evade", async () => {
     ghost.isAttacking = false;
     await k.tween(
       ghost.pos,
@@ -91,5 +85,31 @@ export function setGhostAI(k, ghost, player) {
       k.easings.linear
     );
     ghost.enterState("attack");
+  });
+
+  k.onSceneLeave(() => {
+    backtrack.cancel();
+    right.cancel();
+    attack.cancel();
+    evade.cancel();
+    updateRef.cancel();
+  });
+}
+
+export function onGhostDestroyed(k) {
+  k.onDestroy("ghost", () => {
+    const prisonKey = k.add([
+      k.sprite("assets", { anim: "prison-key" }),
+      k.pos(k.center().x + 4, k.center().y - 200),
+      k.area(),
+      "key",
+    ]);
+
+    prisonKey.onCollide("player", () => {
+      playerState.setHasKey(true);
+      k.destroy(prisonKey);
+    });
+
+    gameState.setIsGhostDefeated(true);
   });
 }

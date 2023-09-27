@@ -1,5 +1,5 @@
 import { gameState, playerState } from "../state/stateManagers.js";
-import { isAnyOfTheseKeysDown, playAnimIfNotPlaying } from "../utils.js";
+import { areAnyOfTheseKeysDown, playAnimIfNotPlaying } from "../utils.js";
 
 export function generatePlayerComponents(k, pos) {
   return [
@@ -25,7 +25,7 @@ export function watchPlayerHealth(k) {
   k.onUpdate(() => {
     if (playerState.getHealth() <= 0) {
       playerState.setHealth(playerState.getMaxHealth());
-      k.go("gameOver");
+      k.go("world");
     }
   });
 }
@@ -35,7 +35,7 @@ export function setPlayerControls(k, player) {
     if (gameState.getIsDialogOn()) return;
     if (k.isKeyDown("space")) return;
     if (["left"].includes(key)) {
-      if (isAnyOfTheseKeysDown(k, ["up", "down"])) return;
+      if (areAnyOfTheseKeysDown(k, ["up", "down"])) return;
       player.flipX = true;
       playAnimIfNotPlaying(player, "player-side");
       player.move(-player.speed, 0);
@@ -44,7 +44,7 @@ export function setPlayerControls(k, player) {
     }
 
     if (["right"].includes(key)) {
-      if (isAnyOfTheseKeysDown(k, ["up", "down"])) return;
+      if (areAnyOfTheseKeysDown(k, ["up", "down"])) return;
       player.flipX = false;
       playAnimIfNotPlaying(player, "player-side");
       player.move(player.speed, 0);

@@ -1,6 +1,3 @@
-import { playerState } from "../state/stateManagers.js";
-import { healthBar } from "../uiComponents/healthbar.js";
-import { blinkEffect } from "../utils.js";
 import { playAnimIfNotPlaying } from "../utils.js";
 
 const directionalStates = ["left", "right", "up", "down"];
@@ -40,13 +37,6 @@ async function move(k, entity, isHorizontal, moveBy, duration) {
 }
 
 export function setSlimeAI(k, slime) {
-  k.onSceneLeave(() => {
-    idle.cancel();
-    right.cancel();
-    up.cancel();
-    down.cancel();
-  });
-
   const idle = slime.onStateEnter("idle", () => {
     slime.stop();
     slime.enterState(
@@ -102,5 +92,13 @@ export function setSlimeAI(k, slime) {
     }
 
     slime.enterState("idle");
+  });
+
+  k.onSceneLeave(() => {
+    idle.cancel();
+    right.cancel();
+    left.cancel();
+    up.cancel();
+    down.cancel();
   });
 }

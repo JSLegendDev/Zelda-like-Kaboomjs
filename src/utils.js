@@ -7,7 +7,7 @@ export function playAnimIfNotPlaying(gameObj, animName) {
   }
 }
 
-export function isAnyOfTheseKeysDown(k, keys) {
+export function areAnyOfTheseKeysDown(k, keys) {
   for (const key of keys) {
     if (k.isKeyDown(key)) return true;
   }

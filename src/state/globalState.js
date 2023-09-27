@@ -6,29 +6,34 @@ export default function globalStateManager() {
     let isDialogOn = false;
     let locale = "english";
     let fontSize = 30;
+    let isGhostDefeated = false;
 
     return {
-      setPreviousScene: (sceneName) => {
+      setPreviousScene(sceneName) {
         previousScene = sceneName;
       },
       getPreviousScene: () => previousScene,
-      setIsDialogOn: (value) => {
+      setIsDialogOn(value) {
         isDialogOn = value;
       },
       getIsDialogOn: () => isDialogOn,
-      setLocale: (language) => {
+      setLocale(language) {
         locale = language;
       },
       getLocale: () => locale,
-      setFontSize: (size) => {
+      setFontSize(size) {
         fontSize = size;
       },
       getFontSize: () => fontSize,
+      setIsGhostDefeated(value) {
+        isGhostDefeated = value;
+      },
+      getIsGhostDefeated: () => isGhostDefeated,
     };
   }
 
   return {
-    getInstance: () => {
+    getInstance() {
       if (!instance) {
         instance = createInstance();
       }

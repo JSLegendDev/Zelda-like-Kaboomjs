@@ -1,6 +1,5 @@
 import k from "./kaboomContext.js";
-import endGame from "./scenes/endGame.js";
-import gameOver from "./scenes/gameOver.js";
+import mainMenu from "./scenes/mainMenu.js";
 import world from "./scenes/world.js";
 import house from "./scenes/house.js";
 import dungeon from "./scenes/dungeon.js";
@@ -42,8 +41,7 @@ k.loadSprite("assets", "./assets/topdownasset.png", {
     "oldman-side": 907,
     "oldman-up": 905,
     "ghost-down": { from: 862, to: 863, loop: true },
-    "ghost-up": { from: 901, to: 902, loop: true },
-    "ghost-side": { from: 864, to: 865, loop: true },
+    "prison-key": 99,
   },
 });
 k.loadSpriteAtlas("./assets/topdownasset.png", {
@@ -71,8 +69,7 @@ const scenes = {
   world,
   house,
   dungeon,
-  gameOver,
-  endGame,
+  mainMenu,
 };
 for (const sceneName in scenes) {
   k.scene(sceneName, () => scenes[sceneName](k));
