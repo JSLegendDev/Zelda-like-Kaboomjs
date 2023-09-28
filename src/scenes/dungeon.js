@@ -48,7 +48,7 @@ export default async function dungeon(k) {
           continue;
         }
 
-        if (object.name === "ghost") {
+        if (object.name === "ghost" && !gameState.getIsGhostDefeated()) {
           entities.ghost = map.add(
             generateGhostComponents(k, k.vec2(object.x, object.y))
           );
