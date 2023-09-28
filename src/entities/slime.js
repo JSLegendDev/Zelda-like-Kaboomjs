@@ -16,8 +16,7 @@ export function generateSlimeComponents(k, pos) {
     k.health(3),
     k.opacity(),
     {
-      speed: 100,
-      lineOfSight: 30,
+      speed: 30,
       attackPower: 0.5,
     },
     "slime",
@@ -37,8 +36,27 @@ async function move(k, entity, isHorizontal, moveBy, duration) {
 }
 
 export function setSlimeAI(k, slime) {
-  const idle = slime.onStateEnter("idle", () => {
+  k.onUpdate(() => {
+    switch (slime.state) {
+      case "right":
+        slime.move(slime.speed, 0);
+        break;
+      case "left":
+        slime.move(-slime.speed, 0);
+        break;
+      case "up":
+        slime.move(0, -slime.speed);
+        break;
+      case "down":
+        slime.move(0, slime.speed);
+        break;
+      default:
+    }
+  });
+
+  const idle = slime.onStateEnter("idle", async () => {
     slime.stop();
+    await k.wait(3);
     slime.enterState(
       directionalStates[Math.floor(Math.random() * directionalStates.length)]
     );
@@ -47,23 +65,23 @@ export function setSlimeAI(k, slime) {
   const right = slime.onStateEnter("right", async () => {
     slime.flipX = false;
     playAnimIfNotPlaying(slime, "slime-side");
-    await move(k, slime, true, 20, 1);
+    await k.wait(3);
 
     if (slime.getCollisions().length > 0) {
-      slime.enterState("left");
+      slime.enterState("idle");
       return;
     }
 
-    slime.enterState("right");
+    slime.enterState("idle");
   });
 
   const left = slime.onStateEnter("left", async () => {
     slime.flipX = true;
     playAnimIfNotPlaying(slime, "slime-side");
-    await move(k, slime, true, -20, 1);
+    await k.wait(3);
 
     if (slime.getCollisions().length > 0) {
-      slime.enterState("right");
+      slime.enterState("idle");
       return;
     }
 
@@ -72,10 +90,10 @@ export function setSlimeAI(k, slime) {
 
   const up = slime.onStateEnter("up", async () => {
     playAnimIfNotPlaying(slime, "slime-up");
-    await move(k, slime, false, -20, 1);
+    await k.wait(3);
 
     if (slime.getCollisions().length > 0) {
-      slime.enterState("down");
+      slime.enterState("idle");
       return;
     }
 
@@ -84,10 +102,10 @@ export function setSlimeAI(k, slime) {
 
   const down = slime.onStateEnter("down", async () => {
     playAnimIfNotPlaying(slime, "slime-down");
-    await move(k, slime, false, 20, 1);
+    await k.wait(3);
 
     if (slime.getCollisions().length > 0) {
-      slime.enterState("up");
+      slime.enterState("idle");
       return;
     }
 
