@@ -32,7 +32,7 @@ export function watchPlayerHealth(k) {
 
 export function setPlayerControls(k, player) {
   k.onKeyDown((key) => {
-    if (gameState.getIsDialogOn()) return;
+    if (gameState.getFreezePlayer()) return;
     if (k.isKeyDown("space")) return;
     if (["left"].includes(key)) {
       if (areAnyOfTheseKeysDown(k, ["up", "down"])) return;
@@ -69,7 +69,7 @@ export function setPlayerControls(k, player) {
 
   k.onKeyPress((key) => {
     if (!["space"].includes(key)) return;
-    if (gameState.getIsDialogOn()) return;
+    if (gameState.getFreezePlayer()) return;
     if (!playerState.getIsSwordEquipped()) return;
     player.isAttacking = true;
 

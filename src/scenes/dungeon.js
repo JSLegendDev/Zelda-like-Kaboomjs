@@ -57,9 +57,9 @@ export default async function dungeon(k) {
 
         if (object.name === "prison-door") {
           map.add([
-            k.sprite("assets", { frame: 505 }),
-            k.area(),
-            k.body({ isStatic: true }),
+            k.sprite("assets", { frame: playerState.getHasKey() ? 506 : 505 }),
+            !playerState.getHasKey() && k.area(),
+            !playerState.getHasKey() && k.body({ isStatic: true }),
             k.pos(object.x, object.y),
             "prison-door",
           ]);
@@ -100,13 +100,17 @@ export default async function dungeon(k) {
   }
 
   entities.player.onCollide("door-entrance", async () => {
+    gameState.setFreezePlayer(true);
     await slideCamY(k, -180, 1);
     entities.player.pos.y -= 50;
+    gameState.setFreezePlayer(false);
   });
 
   entities.player.onCollide("door-exit-2", async () => {
+    gameState.setFreezePlayer(true);
     await slideCamY(k, 180, 1);
     entities.player.pos.y += 50;
+    gameState.setFreezePlayer(false);
   });
 
   entities.player.onCollide("prison-door", async (prisonDoor) => {
@@ -129,10 +133,12 @@ export default async function dungeon(k) {
     await dialog(k, k.vec2(250, 500), sonLines[gameState.getLocale()][2]);
   });
 
-  setGhostAI(k, entities.ghost, entities.player);
-  onAttacked(k, entities.ghost);
-  onCollideWithPlayer(k, entities.ghost);
-  onGhostDestroyed(k);
+  if (entities.ghost !== null) {
+    setGhostAI(k, entities.ghost, entities.player);
+    onAttacked(k, entities.ghost);
+    onCollideWithPlayer(k, entities.ghost);
+    onGhostDestroyed(k);
+  }
 
   k.camScale(4);
   healthBar(k);

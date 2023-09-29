@@ -3,7 +3,7 @@ export default function globalStateManager() {
 
   function createInstance() {
     let previousScene = null;
-    let isDialogOn = false;
+    let freezePlayer = false;
     let locale = "english";
     let fontSize = 30;
     let isGhostDefeated = false;
@@ -14,10 +14,10 @@ export default function globalStateManager() {
         previousScene = sceneName;
       },
       getPreviousScene: () => previousScene,
-      setIsDialogOn(value) {
-        isDialogOn = value;
+      setFreezePlayer(value) {
+        freezePlayer = value;
       },
-      getIsDialogOn: () => isDialogOn,
+      getFreezePlayer: () => freezePlayer,
       setLocale(language) {
         locale = language;
       },

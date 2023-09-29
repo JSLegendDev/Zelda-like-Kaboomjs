@@ -12,7 +12,7 @@ async function displayLine(textContainer, line) {
 }
 
 export async function dialog(k, pos, content) {
-  gameState.setIsDialogOn(true);
+  gameState.setFreezePlayer(true);
 
   const dialogBox = k.add([k.rect(800, 200), k.pos(pos), k.fixed()]);
   const textContainer = dialogBox.add([
@@ -38,7 +38,7 @@ export async function dialog(k, pos, content) {
     if (!content[index]) {
       k.destroy(dialogBox);
       dialogKey.cancel();
-      gameState.setIsDialogOn(false);
+      gameState.setFreezePlayer(false);
       return;
     }
 
