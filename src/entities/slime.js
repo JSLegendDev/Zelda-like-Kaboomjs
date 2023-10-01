@@ -11,7 +11,6 @@ export function generateSlimeComponents(k, pos) {
     k.body(),
     k.pos(pos),
     k.offscreen(),
-    k.timer(),
     k.state("idle", ["idle", ...directionalStates]),
     k.health(3),
     k.opacity(),
